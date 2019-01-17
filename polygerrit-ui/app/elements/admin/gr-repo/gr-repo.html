@@ -62,13 +62,13 @@ limitations under the License.
           <hr/>
         </h1>
         <div>
-          <a href$="[[_computeChangesUrl(repo)]]">(view changes)</a>
+          <a href$="[[_computeChangesUrl(repo)]]">查看提交记录</a>
         </div>
       </div>
       <div id="loading" class$="[[_computeLoadingClass(_loading)]]">Loading...</div>
       <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
         <div id="downloadContent" class$="[[_computeDownloadClass(_schemes)]]">
-          <h2 id="download">Download</h2>
+          <h2 id="download">仓库下载</h2>
           <fieldset>
             <gr-download-commands
                 id="downloadCommands"
@@ -78,10 +78,10 @@ limitations under the License.
           </fieldset>
         </div>
         <h2 id="configurations"
-            class$="[[_computeHeaderClass(_configChanged)]]">Configurations</h2>
+            class$="[[_computeHeaderClass(_configChanged)]]">仓库配置</h2>
         <div id="form">
           <fieldset>
-            <h3 id="Description">Description</h3>
+            <h3 id="Description">仓库介绍</h3>
             <fieldset>
               <iron-autogrow-textarea
                   id="descriptionInput"
@@ -91,10 +91,10 @@ limitations under the License.
                   bind-value="{{_repoConfig.description}}"
                   disabled$="[[_readOnly]]"></iron-autogrow-textarea>
             </fieldset>
-            <h3 id="Options">Repository Options</h3>
+            <h3 id="Options">其他选项</h3>
             <fieldset id="options">
               <section>
-                <span class="title">State</span>
+                <span class="title">状态</span>
                 <span class="value">
                   <gr-select
                       id="stateSelect"
@@ -108,7 +108,7 @@ limitations under the License.
                 </span>
               </section>
               <section>
-                <span class="title">Submit type</span>
+                <span class="title">提交类型</span>
                 <span class="value">
                   <gr-select
                       id="submitTypeSelect"
@@ -123,7 +123,7 @@ limitations under the License.
                 </span>
               </section>
               <section>
-                <span class="title">Allow content merges</span>
+                <span class="title">允许合并</span>
                 <span class="value">
                   <gr-select
                       id="contentMergeSelect"
@@ -139,7 +139,7 @@ limitations under the License.
               </section>
               <section>
                 <span class="title">
-                  Create a new change for every commit not in the target branch
+                  不在目标分支中的每次提交都创建一个新的更改
                 </span>
                 <span class="value">
                   <gr-select
@@ -155,7 +155,7 @@ limitations under the License.
                 </span>
               </section>
               <section>
-                <span class="title">Require Change-Id in commit message</span>
+                <span class="title">需要在提交信息中包含 Change-Id</span>
                 <span class="value">
                   <gr-select
                       id="requireChangeIdSelect"
@@ -172,7 +172,7 @@ limitations under the License.
               <section
                    id="enableSignedPushSettings"
                    class$="repositorySettings [[_computeRepositoriesClass(_repoConfig.enable_signed_push)]]">
-                <span class="title">Enable signed push</span>
+                <span class="title">启用推送签名</span>
                 <span class="value">
                   <gr-select
                       id="enableSignedPush"
@@ -189,7 +189,7 @@ limitations under the License.
               <section
                    id="requireSignedPushSettings"
                    class$="repositorySettings [[_computeRepositoriesClass(_repoConfig.require_signed_push)]]">
-                <span class="title">Require signed push</span>
+                <span class="title">需要签名推送</span>
                 <span class="value">
                   <gr-select
                       id="requireSignedPush"
@@ -205,7 +205,7 @@ limitations under the License.
               </section>
               <section>
                 <span class="title">
-                  Reject implicit merges when changes are pushed for review</span>
+                  当需要审查提交的修改时，不允许隐式合并</span>
                 <span class="value">
                   <gr-select
                       id="rejectImplicitMergesSelect"
@@ -221,7 +221,7 @@ limitations under the License.
               </section>
               <section id="noteDbSettings" class$="repositorySettings [[_computeRepositoriesClass(_noteDbEnabled)]]">
                 <span class="title">
-                  Enable adding unregistered users as reviewers and CCs on changes</span>
+                  允许添加未注册用户作为提交的审阅者和CCs</span>
                 <span class="value">
                   <gr-select
                       id="unRegisteredCcSelect"
@@ -237,7 +237,7 @@ limitations under the License.
               </section>
               <section>
                 <span class="title">
-                  Set all new changes private by default</span>
+                  默认情况下将所有新的提交设置为私有</span>
                 <span class="value">
                   <gr-select
                       id="setAllnewChangesPrivateByDefaultSelect"
@@ -253,7 +253,7 @@ limitations under the License.
               </section>
               <section>
                 <span class="title">
-                  Set new changes to "work in progress" by default</span>
+                  默认情况下设置新的提交为"work in progress"</span>
                 <span class="value">
                   <gr-select
                       id="setAllNewChangesWorkInProgressByDefaultSelect"
@@ -268,7 +268,7 @@ limitations under the License.
                 </span>
               </section>
               <section>
-                <span class="title">Maximum Git object size limit</span>
+                <span class="title">最大Git对象大小限制</span>
                 <span class="value">
                   <input
                       id="maxGitObjSizeInput"
@@ -282,7 +282,7 @@ limitations under the License.
                 </span>
               </section>
               <section>
-                <span class="title">Match authored date with committer date upon submit</span>
+                <span class="title">提交时将创建日期与提交日期匹配</span>
                 <span class="value">
                   <gr-select
                       id="matchAuthoredDateWithCommitterDateSelect"
@@ -297,7 +297,7 @@ limitations under the License.
                 </span>
               </section>
               <section>
-                <span class="title">Reject empty commit upon submit</span>
+                <span class="title">拒绝空的提交</span>
                 <span class="value">
                   <gr-select
                       id="rejectEmptyCommitSelect"
@@ -312,11 +312,11 @@ limitations under the License.
                 </span>
               </section>
             </fieldset>
-            <h3 id="Options">Contributor Agreements</h3>
+            <h3 id="Options">贡献者协议</h3>
             <fieldset id="agreements">
               <section>
                 <span class="title">
-                  Require a valid contributor agreement to upload</span>
+                  要求上传有效的贡献者协议</span>
                 <span class="value">
                   <gr-select
                       id="contributorAgreementSelect"
@@ -331,7 +331,7 @@ limitations under the License.
                 </span>
               </section>
               <section>
-                <span class="title">Require Signed-off-by in commit message</span>
+                <span class="title">需要在提交消息中签名</span>
                 <span class="value">
                   <gr-select
                         id="useSignedOffBySelect"
@@ -349,7 +349,7 @@ limitations under the License.
             <!-- TODO @beckysiegel add plugin config widgets -->
             <gr-button
                 on-tap="_handleSaveRepoConfig"
-                disabled$="[[_computeButtonDisabled(_readOnly, _configChanged)]]">Save changes</gr-button>
+                disabled$="[[_computeButtonDisabled(_readOnly, _configChanged)]]">保存修改</gr-button>
           </fieldset>
           <gr-endpoint-decorator name="repo-config">
             <gr-endpoint-param name="repoName" value="[[repo]]"></gr-endpoint-param>

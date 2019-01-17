@@ -18,19 +18,19 @@
   'use strict';
 
   const DEFAULT_LINKS = [{
-    title: '修改',
+    title: '提交变更',
     links: [
       {
         url: '/q/status:open',
-        name: '打开',
+        name: '已打开',
       },
       {
         url: '/q/status:merged',
-        name: '合并',
+        name: '已合并',
       },
       {
         url: '/q/status:abandoned',
-        name: '丢弃',
+        name: '已丢弃',
       },
     ],
   }];
@@ -187,7 +187,7 @@
       });
       if (userLinks && userLinks.length > 0) {
         links.push({
-          title: '你的',
+          title: '个人相关',
           links: userLinks.slice(),
         });
       }
@@ -200,7 +200,7 @@
         });
       }
       links.push({
-        title: '浏览',
+        title: '综合浏览',
         links: adminLinks.slice(),
       });
       const topMenuLinks = [];
