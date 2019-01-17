@@ -19,7 +19,9 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestPlugin;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.inject.Inject;
 import java.util.Map;
 import org.junit.Test;
 
@@ -28,10 +30,12 @@ import org.junit.Test;
     name = "singleusergroup",
     sysModule = "com.googlesource.gerrit.plugins.singleusergroup.SingleUserGroup$Module")
 public class SingleUserGroupTest extends LightweightPluginDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   @Test
   public void testSuggestion() throws Exception {
     // No ability to modify account and therefore no ACL to see secondary email
-    setApiUser(user);
+    requestScopeOperations.setApiUser(user.getId());
     Map<String, GroupInfo> groups = gApi.groups().list().withSuggest("adm").getAsMap();
     assertThat(groups).containsKey("user/Administrator (admin)");
   }

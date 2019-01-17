@@ -13,18 +13,21 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.replication;
 
+import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.extensions.annotations.PluginData;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.transport.URIish;
 
 @Singleton
 public class AutoReloadConfigDecorator implements ReplicationConfig {
@@ -32,20 +35,17 @@ public class AutoReloadConfigDecorator implements ReplicationConfig {
 
   private ReplicationFileBasedConfig currentConfig;
   private long currentConfigTs;
-  private long lastFailedConfigTs;
 
   private final SitePaths site;
+  private final WorkQueue workQueue;
   private final DestinationFactory destinationFactory;
   private final Path pluginDataDir;
-  // Use Provider<> instead of injecting the ReplicationQueue because of circular dependency with
-  // ReplicationConfig
-  private final Provider<ReplicationQueue> replicationQueue;
 
   @Inject
   public AutoReloadConfigDecorator(
       SitePaths site,
+      WorkQueue workQueue,
       DestinationFactory destinationFactory,
-      Provider<ReplicationQueue> replicationQueue,
       @PluginData Path pluginDataDir)
       throws ConfigInvalidException, IOException {
     this.site = site;
@@ -53,7 +53,7 @@ public class AutoReloadConfigDecorator implements ReplicationConfig {
     this.pluginDataDir = pluginDataDir;
     this.currentConfig = loadConfig();
     this.currentConfigTs = getLastModified(currentConfig);
-    this.replicationQueue = replicationQueue;
+    this.workQueue = workQueue;
   }
 
   private static long getLastModified(ReplicationFileBasedConfig cfg) {
@@ -74,28 +74,33 @@ public class AutoReloadConfigDecorator implements ReplicationConfig {
     return currentConfig.getDestinations(filterType);
   }
 
+  @Override
+  public synchronized Multimap<Destination, URIish> getURIs(
+      Optional<String> remoteName, Project.NameKey projectName, FilterType filterType) {
+    reloadIfNeeded();
+    return currentConfig.getURIs(remoteName, projectName, filterType);
+  }
+
   private void reloadIfNeeded() {
-    if (isAutoReload()) {
-      ReplicationQueue queue = replicationQueue.get();
-      long lastModified = getLastModified(currentConfig);
-      try {
-        if (lastModified > currentConfigTs && lastModified > lastFailedConfigTs) {
-          queue.stop();
-          currentConfig = loadConfig();
-          currentConfigTs = lastModified;
-          lastFailedConfigTs = 0;
+    try {
+      if (isAutoReload()) {
+        long lastModified = getLastModified(currentConfig);
+        if (lastModified > currentConfigTs) {
+          ReplicationFileBasedConfig newConfig = loadConfig();
+          newConfig.startup(workQueue);
+          int discarded = currentConfig.shutdown();
+
+          this.currentConfig = newConfig;
+          this.currentConfigTs = lastModified;
           logger.atInfo().log(
-              "Configuration reloaded: %d destinations",
-              currentConfig.getDestinations(FilterType.ALL).size());
+              "Configuration reloaded: %d destinations, %d replication events discarded",
+              currentConfig.getDestinations(FilterType.ALL).size(), discarded);
         }
-      } catch (Exception e) {
-        logger.atSevere().withCause(e).log(
-            "Cannot reload replication configuration: keeping existing settings");
-        lastFailedConfigTs = lastModified;
-        return;
-      } finally {
-        queue.start();
       }
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log(
+          "Cannot reload replication configuration: keeping existing settings");
+      return;
     }
   }
 

@@ -28,7 +28,7 @@ public class GerritSshApi implements AdminApi {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static int SSH_COMMAND_FAILED = -1;
-  private static String GERRIT_ADMIN_PROTOCOL_PREFIX = "gerrit+";
+  static String GERRIT_ADMIN_PROTOCOL_PREFIX = "gerrit+";
 
   private final SshHelper sshHelper;
   private final URIish uri;
@@ -41,14 +41,16 @@ public class GerritSshApi implements AdminApi {
   }
 
   @Override
-  public void createProject(Project.NameKey projectName, String head) {
+  public boolean createProject(Project.NameKey projectName, String head) {
     OutputStream errStream = sshHelper.newErrorBufferStream();
     String cmd = "gerrit create-project --branch " + head + " " + projectName.get();
     try {
       execute(uri, cmd, errStream);
     } catch (IOException e) {
       logError("creating", uri, errStream, cmd, e);
+      return false;
     }
+    return true;
   }
 
   @Override

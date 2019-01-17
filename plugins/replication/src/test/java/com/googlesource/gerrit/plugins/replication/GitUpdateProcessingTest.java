@@ -15,20 +15,14 @@
 package com.googlesource.gerrit.plugins.replication;
 
 import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.createNiceMock;
-import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
-import com.google.gwtorm.server.StandardKeyEncoder;
 import com.googlesource.gerrit.plugins.replication.PushResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.ReplicationState.RefPushResult;
 import java.net.URISyntaxException;
@@ -37,12 +31,7 @@ import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
 import org.junit.Test;
 
-@SuppressWarnings("unchecked")
 public class GitUpdateProcessingTest {
-  static {
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
   private EventDispatcher dispatcherMock;
   private GitUpdateProcessing gitUpdateProcessing;
 
@@ -50,11 +39,6 @@ public class GitUpdateProcessingTest {
   public void setUp() throws Exception {
     dispatcherMock = createMock(EventDispatcher.class);
     replay(dispatcherMock);
-    ReviewDb reviewDbMock = createNiceMock(ReviewDb.class);
-    replay(reviewDbMock);
-    SchemaFactory<ReviewDb> schemaMock = createMock(SchemaFactory.class);
-    expect(schemaMock.open()).andReturn(reviewDbMock).anyTimes();
-    replay(schemaMock);
     gitUpdateProcessing = new GitUpdateProcessing(dispatcherMock);
   }
 
