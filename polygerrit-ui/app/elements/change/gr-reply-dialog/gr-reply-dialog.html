@@ -159,7 +159,7 @@ limitations under the License.
     <div class="container" tabindex="-1">
       <section class="peopleContainer">
         <div class="peopleList">
-          <div class="peopleListLabel">Reviewers</div>
+          <div class="peopleListLabel">审查者</div>
           <gr-account-list
               id="reviewers"
               accounts="{{_reviewers}}"
@@ -190,17 +190,17 @@ limitations under the License.
             id="reviewerConfirmationOverlay"
             on-iron-overlay-canceled="_cancelPendingReviewer">
           <div class="reviewerConfirmation">
-            Group
+            群组
             <span class="groupName">
               [[_pendingConfirmationDetails.group.name]]
             </span>
-            has
+            拥有的
             <span class="groupSize">
               [[_pendingConfirmationDetails.count]]
             </span>
-            members.
+            成员.
             <br>
-            Are you sure you want to add them all?
+            确定要将他们全部添加吗？
           </div>
           <div class="reviewerConfirmationButtons">
             <gr-button on-tap="_confirmPendingReviewer">Yes</gr-button>
@@ -228,7 +228,7 @@ limitations under the License.
       <section class="previewContainer">
         <label>
           <input type="checkbox" checked="{{_previewFormatting::change}}">
-          Preview formatting
+          格式预览
         </label>
         <gr-formatted-text
             content="[[draft]]"
@@ -250,7 +250,7 @@ limitations under the License.
         <div class="includeComments">
           <input type="checkbox" id="includeComments"
               checked="{{_includeComments::change}}">
-          <label for="includeComments">Publish [[_computeDraftsTitle(diffDrafts)]]</label>
+          <label for="includeComments">发布 [[_computeDraftsTitle(diffDrafts)]]</label>
         </div>
         <gr-comment-list
             id="commentList"
@@ -262,7 +262,7 @@ limitations under the License.
         <span
             id="savingLabel"
             class$="[[_computeSavingLabelClass(_savingComments)]]">
-          Saving comments...
+          保存评论...
         </span>
       </section>
       <section class="actions">
@@ -275,7 +275,7 @@ limitations under the License.
                 class="action save"
                 has-tooltip
                 title="[[_saveTooltip]]"
-                on-tap="_saveTapHandler">Save</gr-button>
+                on-tap="_saveTapHandler">保存</gr-button>
           </template>
           <span
               id="checkingStatusLabel"
@@ -286,7 +286,7 @@ limitations under the License.
               id="notLatestLabel"
               hidden$="[[!_isState(knownLatestState, 'not-latest')]]">
             [[_computePatchSetWarning(patchNum, _labelsChanged)]]
-            <gr-button link on-tap="_reload">Reload</gr-button>
+            <gr-button link on-tap="_reload">重新载入</gr-button>
           </span>
         </div>
         <div class="right">
@@ -294,7 +294,7 @@ limitations under the License.
               link
               id="cancelButton"
               class="action cancel"
-              on-tap="_cancelTapHandler">Cancel</gr-button>
+              on-tap="_cancelTapHandler">取消</gr-button>
           <gr-button
               id="sendButton"
               link

@@ -125,7 +125,7 @@ limitations under the License.
       {
         // Non-WIP open changes owned by viewed user. Filter out changes ignored
         // by the viewing user.
-        name: 'Outgoing reviews',
+        name: '提交来的评审',
         query: 'is:open owner:${user} -is:wip -is:ignored',
         isOutgoing: true,
       },
@@ -133,7 +133,7 @@ limitations under the License.
         // Non-WIP open changes not owned by the viewed user, that the viewed user
         // is associated with (as either a reviewer or the assignee). Changes
         // ignored by the viewing user are filtered out.
-        name: 'Incoming reviews',
+        name: '将通过的评审',
         query: 'is:open -owner:${user} -is:wip -is:ignored ' +
             '(reviewer:${user} OR assignee:${user})',
       },

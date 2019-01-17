@@ -89,20 +89,20 @@ limitations under the License.
       </template>
       <div id="commentInfoContainer"
           hidden$="[[_hideActions(_showActions, _lastComment)]]">
-        <span id="unresolvedLabel" hidden$="[[!unresolved]]">Unresolved</span>
+        <span id="unresolvedLabel" hidden$="[[!unresolved]]">未解决的</span>
         <div id="actions">
           <gr-button
               id="replyBtn"
               link
               secondary
               class="action reply"
-              on-tap="_handleCommentReply">Reply</gr-button>
+              on-tap="_handleCommentReply">回复</gr-button>
           <gr-button
               id="quoteBtn"
               link
               secondary
               class="action quote"
-              on-tap="_handleCommentQuote">Quote</gr-button>
+              on-tap="_handleCommentQuote">引用</gr-button>
           <gr-button
               id="ackBtn"
               link
@@ -114,7 +114,7 @@ limitations under the License.
               link
               secondary
               class="action done"
-              on-tap="_handleCommentDone">Done</gr-button>
+              on-tap="_handleCommentDone">完成</gr-button>
         </div>
       </div>
     </div>

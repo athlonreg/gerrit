@@ -93,18 +93,18 @@ limitations under the License.
         path="[[_getPath(_repo, detailType)]]">
       <table id="list" class="genericList gr-form-styles">
         <tr class="headerRow">
-          <th class="name topHeader">Name</th>
-          <th class="revision topHeader">Revision</th>
+          <th class="name topHeader">名称</th>
+          <th class="revision topHeader">修订</th>
           <th class$="message topHeader [[_hideIfBranch(detailType)]]">
-            Message</th>
+            消息</th>
           <th class$="tagger topHeader [[_hideIfBranch(detailType)]]">
             Tagger</th>
           <th class="repositoryBrowser topHeader">
-            Repository Browser</th>
+            浏览仓库</th>
           <th class="delete topHeader"></th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
-          <td>Loading...</td>
+          <td>加载中...</td>
         </tr>
         <tbody class$="[[computeLoadingClass(_loading)]]">
           <template is="dom-repeat" items="[[_shownItems]]">
@@ -122,7 +122,7 @@ limitations under the License.
                       link
                       on-tap="_handleEditRevision"
                       class="editBtn">
-                    edit
+                    编辑
                   </gr-button>
                   <input
                       is=iron-input
@@ -132,14 +132,14 @@ limitations under the License.
                       link
                       on-tap="_handleCancelRevision"
                       class="cancelBtn editItem">
-                    Cancel
+                    取消
                   </gr-button>
                   <gr-button
                       link
                       on-tap="_handleSaveRevision"
                       class="saveBtn editItem"
                       disabled="[[!_revisedRef]]">
-                    Save
+                    保存
                   </gr-button>
                 </span>
               </td>
@@ -173,7 +173,7 @@ limitations under the License.
                     link
                     class$="deleteButton [[_computeHideDeleteClass(_isOwner, item.can_delete)]]"
                     on-tap="_handleDeleteItem">
-                  Delete
+                  删除
                 </gr-button>
               </td>
             </tr>
@@ -197,7 +197,7 @@ limitations under the License.
           on-confirm="_handleCreateItem"
           on-cancel="_handleCloseCreate">
         <div class="header" slot="header">
-          Create [[_computeItemName(detailType)]]
+          创建 [[_computeItemName(detailType)]]
         </div>
         <div class="main" slot="main">
           <gr-create-pointer-dialog

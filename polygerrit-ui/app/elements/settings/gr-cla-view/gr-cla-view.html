@@ -67,8 +67,8 @@ limitations under the License.
     </style>
     <style include="gr-form-styles"></style>
     <main>
-      <h1>New Contributor Agreement</h1>
-      <h3>Select an agreement type:</h3>
+      <h1>新增贡献者协议</h1>
+      <h3>选择一个协议类型:</h3>
       <template is="dom-repeat" items="[[_serverConfig.auth.contributor_agreements]]">
         <span class="contributorAgreementButton">
           <input id$="claNewAgreementsInput[[item.name]]"
@@ -81,23 +81,23 @@ limitations under the License.
           <label id="claNewAgreementsLabel">[[item.name]]</label>
         </span>
         <div class$="alreadySubmittedText [[_hideAggreements(item, _groups, _signedAgreements)]]">
-          Agreement already submitted.
+          协议已经提交.
         </div>
         <div class="agreementsUrl">
           [[item.description]]
         </div>
       </template>
       <div id="claNewAgreement" class$="[[_computeShowAgreementsClass(_showAgreements)]]">
-        <h3 class="smallHeading">Review the agreement:</h3>
+        <h3 class="smallHeading">审查此协议:</h3>
         <div id="agreementsUrl" class="agreementsUrl">
           <a href$="[[_agreementsUrl]]" target="blank" rel="noopener">
-            Please review the agreement.</a>
+            请检查此协议.</a>
         </div>
         <div class$="agreementsTextBox [[_computeHideAgreementClass(_agreementName, _serverConfig.auth.contributor_agreements)]]">
-          <h3 class="smallHeading">Complete the agreement:</h3>
+          <h3 class="smallHeading">完成此协议:</h3>
           <input id="input-agreements" is="iron-input" bind-value="{{_agreementsText}}" placeholder="Enter 'I agree' here" />
           <gr-button on-tap="_handleSaveAgreements" disabled="[[_disableAgreementsText(_agreementsText)]]">
-            Submit
+            提交
           </gr-button>
         </div>
       </div>

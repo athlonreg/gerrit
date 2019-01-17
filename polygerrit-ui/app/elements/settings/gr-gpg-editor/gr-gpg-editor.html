@@ -67,7 +67,7 @@ limitations under the License.
               <th class="idColumn">ID</th>
               <th class="fingerPrintColumn">Fingerprint</th>
               <th class="userIdHeader">User IDs</th>
-              <th class="keyHeader">Public Key</th>
+              <th class="keyHeader">公钥</th>
               <th></th>
             </tr>
           </thead>
@@ -85,12 +85,12 @@ limitations under the License.
                   <gr-button
                       on-tap="_showKey"
                       data-index$="[[index]]"
-                      link>Click to View</gr-button>
+                      link>点击查看</gr-button>
                 </td>
                 <td>
                   <gr-button
                       data-index$="[[index]]"
-                      on-tap="_handleDeleteKey">Delete</gr-button>
+                      on-tap="_handleDeleteKey">删除</gr-button>
                 </td>
               </tr>
             </template>
@@ -99,7 +99,7 @@ limitations under the License.
         <gr-overlay id="viewKeyOverlay" with-backdrop>
           <fieldset>
             <section>
-              <span class="title">Status</span>
+              <span class="title">状态</span>
               <span class="value">[[_keyToView.status]]</span>
             </section>
             <section>
@@ -109,15 +109,15 @@ limitations under the License.
           </fieldset>
           <gr-button
               class="closeButton"
-              on-tap="_closeOverlay">Close</gr-button>
+              on-tap="_closeOverlay">关闭</gr-button>
         </gr-overlay>
         <gr-button
             on-tap="save"
-            disabled$="[[!hasUnsavedChanges]]">Save changes</gr-button>
+            disabled$="[[!hasUnsavedChanges]]">保存修改</gr-button>
       </fieldset>
       <fieldset>
         <section>
-          <span class="title">New GPG key</span>
+          <span class="title">新增 GPG key</span>
           <span class="value">
             <iron-autogrow-textarea
                 id="newKey"
@@ -129,7 +129,7 @@ limitations under the License.
         <gr-button
             id="addButton"
             disabled$="[[_computeAddButtonDisabled(_newKey)]]"
-            on-tap="_handleAddKey">Add new GPG key</gr-button>
+            on-tap="_handleAddKey">新增 GPG key</gr-button>
       </fieldset>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

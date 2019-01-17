@@ -71,55 +71,53 @@ limitations under the License.
     <style include="gr-form-styles"></style>
     <style include="gr-menu-page-styles"></style>
     <style include="gr-page-nav-styles"></style>
-    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+    <div class="loading" hidden$="[[!_loading]]">加载中...</div>
     <div hidden$="[[_loading]]" hidden>
       <gr-page-nav class="navStyles">
         <ul>
-          <li><a href="#Profile">Profile</a></li>
-          <li><a href="#Preferences">Preferences</a></li>
-          <li><a href="#DiffPreferences">Diff Preferences</a></li>
-          <li><a href="#EditPreferences">Edit Preferences</a></li>
-          <li><a href="#Menu">Menu</a></li>
-          <li><a href="#ChangeTableColumns">Change Table Columns</a></li>
-          <li><a href="#Notifications">Notifications</a></li>
-          <li><a href="#EmailAddresses">Email Addresses</a></li>
-          <li><a href="#HTTPCredentials">HTTP Credentials</a></li>
+          <li><a href="#Profile">个人档案</a></li>
+          <li><a href="#Preferences">偏好设置</a></li>
+          <li><a href="#DiffPreferences">Diff 偏好设置</a></li>
+          <li><a href="#EditPreferences">Edit 偏好设置</a></li>
+          <li><a href="#Menu">菜单</a></li>
+          <li><a href="#ChangeTableColumns">修改选项卡列表</a></li>
+          <li><a href="#Notifications">提醒</a></li>
+          <li><a href="#EmailAddresses">邮箱地址</a></li>
+          <li><a href="#HTTPCredentials">HTTP 授权</a></li>
           <li hidden$="[[!_serverConfig.sshd]]"><a href="#SSHKeys">
             SSH Keys
           </a></li>
           <li hidden$="[[!_serverConfig.receive.enable_signed_push]]"><a href="#GPGKeys">
             GPG Keys
           </a></li>
-          <li><a href="#Groups">Groups</a></li>
-          <li><a href="#Identities">Identities</a></li>
+          <li><a href="#Groups">群组</a></li>
+          <li><a href="#Identities">身份</a></li>
           <template is="dom-if" if="[[_serverConfig.auth.use_contributor_agreements]]">
             <li>
-              <a href="#Agreements">Agreements</a>
+              <a href="#Agreements">协议</a>
             </li>
           </template>
-          <li><a href="#MailFilters">Mail Filters</a></li>
+          <li><a href="#MailFilters">邮件 Filters</a></li>
           <gr-endpoint-decorator name="settings-menu-item">
           </gr-endpoint-decorator>
         </ul>
       </gr-page-nav>
       <main class="gr-form-styles">
-        <h1>User Settings</h1>
+        <h1>用户设置</h1>
         <section class="darkToggle">
           <div class="toggle">
             <paper-toggle-button
                 checked="[[_isDark]]"
                 on-change="_handleToggleDark"></paper-toggle-button>
-            <div>Dark theme (alpha)</div>
+            <div>暗色模式（内测）</div>
           </div>
           <p>
-            Gerrit's dark theme is in early alpha, and almost definitely will
-            not play nicely with themes set by specific Gerrit hosts. Filing
-            feedback via the link in the app footer is strongly encouraged!
+            暗色主题尚在内测阶段，会有不稳定现象，不建议使用。
           </p>
         </section>
         <h2
             id="Profile"
-            class$="[[_computeHeaderClass(_accountInfoChanged)]]">Profile</h2>
+            class$="[[_computeHeaderClass(_accountInfoChanged)]]">个人档案</h2>
         <fieldset id="profile">
           <gr-account-info
               id="accountInfo"
@@ -127,28 +125,28 @@ limitations under the License.
               has-unsaved-changes="{{_accountInfoChanged}}"></gr-account-info>
           <gr-button
               on-tap="_handleSaveAccountInfo"
-              disabled="[[!_accountInfoChanged]]">Save changes</gr-button>
+              disabled="[[!_accountInfoChanged]]">保存修改</gr-button>
         </fieldset>
         <h2
             id="Preferences"
-            class$="[[_computeHeaderClass(_prefsChanged)]]">Preferences</h2>
+            class$="[[_computeHeaderClass(_prefsChanged)]]">偏好设置</h2>
         <fieldset id="preferences">
           <section>
-            <span class="title">Changes per page</span>
+            <span class="title">每页显示的行数</span>
             <span class="value">
               <gr-select
                   bind-value="{{_localPrefs.changes_per_page}}">
                 <select>
-                  <option value="10">10 rows per page</option>
-                  <option value="25">25 rows per page</option>
-                  <option value="50">50 rows per page</option>
-                  <option value="100">100 rows per page</option>
+                  <option value="10">每页 10 行</option>
+                  <option value="25">每页 25 行</option>
+                  <option value="50">每页 50 行</option>
+                  <option value="100">每页 100 行</option>
                 </select>
               </gr-select>
             </span>
           </section>
           <section>
-            <span class="title">Date/time format</span>
+            <span class="title">日期/时间格式</span>
             <span class="value">
               <gr-select
                   bind-value="{{_localPrefs.date_format}}">
@@ -170,20 +168,20 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Email notifications</span>
+            <span class="title">邮件提醒</span>
             <span class="value">
               <gr-select
                   bind-value="{{_localPrefs.email_strategy}}">
                 <select>
-                  <option value="CC_ON_OWN_COMMENTS">Every comment</option>
-                  <option value="ENABLED">Only comments left by others</option>
-                  <option value="DISABLED">None</option>
+                  <option value="CC_ON_OWN_COMMENTS">只要有评论时就提醒</option>
+                  <option value="ENABLED">仅当别人评论时提醒</option>
+                  <option value="DISABLED">不提醒</option>
                 </select>
               </gr-select>
             </span>
           </section>
           <section hidden$="[[!_localPrefs.email_format]]">
-            <span class="title">Email format</span>
+            <span class="title">邮件格式</span>
             <span class="value">
               <gr-select
                   bind-value="{{_localPrefs.email_format}}">
@@ -251,7 +249,7 @@ limitations under the License.
           <gr-button
               id="savePrefs"
               on-tap="_handleSavePreferences"
-              disabled="[[!_prefsChanged]]">Save changes</gr-button>
+              disabled="[[!_prefsChanged]]">保存修改</gr-button>
         </fieldset>
         <h2
             id="DiffPreferences"
@@ -276,7 +274,7 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Fit to screen</span>
+            <span class="title">充满屏幕</span>
             <span class="value">
               <input
                   id="diffLineWrapping"
@@ -286,7 +284,7 @@ limitations under the License.
             </span>
           </section>
           <section id="columnsPref" hidden$="[[_diffPrefs.line_wrapping]]">
-            <span class="title">Diff width</span>
+            <span class="title">Diff 宽度</span>
             <span class="value">
               <input
                   is="iron-input"
@@ -297,7 +295,7 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Tab width</span>
+            <span class="title">选项卡宽度</span>
             <span class="value">
               <input
                   is="iron-input"
@@ -308,7 +306,7 @@ limitations under the License.
             </span>
           </section>
           <section hidden$="[[!_diffPrefs.font_size]]">
-            <span class="title">Font size</span>
+            <span class="title">字体大小</span>
             <span class="value">
               <input
                   is="iron-input"
@@ -319,7 +317,7 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Show tabs</span>
+            <span class="title">显示选项卡</span>
             <span class="value">
               <input
                   id="diffShowTabs"
@@ -339,7 +337,7 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Syntax highlighting</span>
+            <span class="title">语法高亮</span>
             <span class="value">
               <input
                   id="diffSyntaxHighlighting"
@@ -350,7 +348,7 @@ limitations under the License.
           </section>
           <section>
           <div class="pref">
-            <span class="title">Ignore Whitespace</span>
+            <span class="title">忽略空白行</span>
             <span class="value">
               <gr-select bind-value="{{_diffPrefs.ignore_whitespace}}">
                 <select>
@@ -365,12 +363,12 @@ limitations under the License.
           <gr-button
               id="saveDiffPrefs"
               on-tap="_handleSaveDiffPreferences"
-              disabled$="[[!_diffPrefsChanged]]">Save changes</gr-button>
+              disabled$="[[!_diffPrefsChanged]]">保存修改</gr-button>
         </fieldset>
         <h2
             id="EditPreferences"
             class$="[[_computeHeaderClass(_editPrefsChanged)]]">
-          Edit Preferences
+          编辑偏好设置
         </h2>
         <fieldset id="editPreferences">
           <gr-edit-preferences
@@ -379,24 +377,24 @@ limitations under the License.
           <gr-button
               id="saveEditPrefs"
               on-tap="_handleSaveEditPreferences"
-              disabled$="[[!_editPrefsChanged]]">Save changes</gr-button>
+              disabled$="[[!_editPrefsChanged]]">保存修改</gr-button>
         </fieldset>
-        <h2 id="Menu" class$="[[_computeHeaderClass(_menuChanged)]]">Menu</h2>
+        <h2 id="Menu" class$="[[_computeHeaderClass(_menuChanged)]]">菜单</h2>
         <fieldset id="menu">
           <gr-menu-editor
               menu-items="{{_localMenu}}"></gr-menu-editor>
           <gr-button
               id="saveMenu"
               on-tap="_handleSaveMenu"
-              disabled="[[!_menuChanged]]">Save changes</gr-button>
+              disabled="[[!_menuChanged]]">保存修改</gr-button>
           <gr-button
               id="resetMenu"
               link
-              on-tap="_handleResetMenuButton">Reset</gr-button>
+              on-tap="_handleResetMenuButton">重置</gr-button>
         </fieldset>
         <h2 id="ChangeTableColumns"
             class$="[[_computeHeaderClass(_changeTableChanged)]]">
-          Change Table Columns
+          修改表格列数
         </h2>
         <fieldset id="changeTableColumns">
           <gr-change-table-editor
@@ -406,12 +404,12 @@ limitations under the License.
           <gr-button
               id="saveChangeTable"
               on-tap="_handleSaveChangeTable"
-              disabled="[[!_changeTableChanged]]">Save changes</gr-button>
+              disabled="[[!_changeTableChanged]]">保存修改</gr-button>
         </fieldset>
         <h2
             id="Notifications"
             class$="[[_computeHeaderClass(_watchedProjectsChanged)]]">
-          Notifications
+          提醒
         </h2>
         <fieldset id="watchedProjects">
           <gr-watched-projects-editor
@@ -420,12 +418,12 @@ limitations under the License.
           <gr-button
               on-tap="_handleSaveWatchedProjects"
               disabled$="[[!_watchedProjectsChanged]]"
-              id="_handleSaveWatchedProjects">Save changes</gr-button>
+              id="_handleSaveWatchedProjects">保存修改</gr-button>
         </fieldset>
         <h2
             id="EmailAddresses"
             class$="[[_computeHeaderClass(_emailsChanged)]]">
-          Email Addresses
+          邮箱地址
         </h2>
         <fieldset id="email">
           <gr-email-editor
@@ -433,11 +431,11 @@ limitations under the License.
               has-unsaved-changes="{{_emailsChanged}}"></gr-email-editor>
           <gr-button
               on-tap="_handleSaveEmails"
-              disabled$="[[!_emailsChanged]]">Save changes</gr-button>
+              disabled$="[[!_emailsChanged]]">保存修改</gr-button>
         </fieldset>
         <fieldset id="newEmail">
           <section>
-            <span class="title">New email address</span>
+            <span class="title">新增邮箱地址</span>
             <span class="value">
               <input
                   id="newEmailInput"
@@ -453,15 +451,15 @@ limitations under the License.
               id="verificationSentMessage"
               hidden$="[[!_lastSentVerificationEmail]]">
             <p>
-              A verification email was sent to
-              <em>[[_lastSentVerificationEmail]]</em>. Please check your inbox.
+              一封验证邮件已经发送至
+              <em>[[_lastSentVerificationEmail]]</em>。 请检查你的收件箱。
             </p>
           </section>
           <gr-button
               disabled="[[!_computeAddEmailButtonEnabled(_newEmail, _addingEmail)]]"
-              on-tap="_handleAddEmailButton">Send verification</gr-button>
+              on-tap="_handleAddEmailButton">发送验证邮箱</gr-button>
         </fieldset>
-        <h2 id="HTTPCredentials">HTTP Credentials</h2>
+        <h2 id="HTTPCredentials">HTTP 授权</h2>
         <fieldset>
           <gr-http-password id="httpPass"></gr-http-password>
         </fieldset>
@@ -481,21 +479,21 @@ limitations under the License.
               id="gpgEditor"
               has-unsaved-changes="{{_gpgKeysChanged}}"></gr-gpg-editor>
         </div>
-        <h2 id="Groups">Groups</h2>
+        <h2 id="Groups">群组</h2>
         <fieldset>
           <gr-group-list id="groupList"></gr-group-list>
         </fieldset>
-        <h2 id="Identities">Identities</h2>
+        <h2 id="Identities">身份</h2>
         <fieldset>
           <gr-identities id="identities"></gr-identities>
         </fieldset>
         <template is="dom-if" if="[[_serverConfig.auth.use_contributor_agreements]]">
-          <h2 id="Agreements">Agreements</h2>
+          <h2 id="Agreements">协议</h2>
           <fieldset>
             <gr-agreements-list id="agreementsList"></gr-agreements-list>
           </fieldset>
         </template>
-        <h2 id="MailFilters">Mail Filters</h2>
+        <h2 id="MailFilters">邮件 Filters</h2>
         <fieldset class="filters">
           <p>
             Gerrit emails include metadata about the change to support

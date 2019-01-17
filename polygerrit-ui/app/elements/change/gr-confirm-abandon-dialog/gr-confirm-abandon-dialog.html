@@ -56,14 +56,14 @@ limitations under the License.
         confirm-label="Abandon"
         on-confirm="_handleConfirmTap"
         on-cancel="_handleCancelTap">
-      <div class="header" slot="header">Abandon Change</div>
+      <div class="header" slot="header">放弃修改</div>
       <div class="main" slot="main">
-        <label for="messageInput">Abandon Message</label>
+        <label for="messageInput">放弃信息</label>
         <iron-autogrow-textarea
             id="messageInput"
             class="message"
             autocomplete="on"
-            placeholder="<Insert reasoning here>"
+            placeholder="<这里插入放弃修改的原因>"
             bind-value="{{message}}"></iron-autogrow-textarea>
       </div>
     </gr-dialog>

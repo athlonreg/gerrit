@@ -101,7 +101,7 @@
     },
 
     _status(item) {
-      return item.disabled === true ? 'Disabled' : 'Enabled';
+      return item.disabled === true ? '未启用' : '已启用';
     },
 
     _computePluginUrl(id) {

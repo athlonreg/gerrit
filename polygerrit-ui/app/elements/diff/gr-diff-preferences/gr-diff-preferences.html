@@ -96,7 +96,7 @@ limitations under the License.
           </select>
         </div>
         <div class="pref">
-          <label for="lineWrappingInput">Fit to screen</label>
+          <label for="lineWrappingInput">充满屏幕</label>
           <input
               is="iron-input"
               type="checkbox"
@@ -111,21 +111,21 @@ limitations under the License.
               bind-value="{{_newPrefs.line_length}}">
         </div>
         <div class="pref">
-          <label for="tabSizeInput">Tab width</label>
+          <label for="tabSizeInput">选项卡宽度</label>
           <input is="iron-input" type="number" id="tabSizeInput"
               prevent-invalid-input
               allowed-pattern="[0-9]"
               bind-value="{{_newPrefs.tab_size}}">
         </div>
         <div class="pref" hidden$="[[!_newPrefs.font_size]]">
-          <label for="fontSizeInput">Font size</label>
+          <label for="fontSizeInput">字体大小</label>
           <input is="iron-input" type="number" id="fontSizeInput"
                 prevent-invalid-input
                 allowed-pattern="[0-9]"
                 bind-value="{{_newPrefs.font_size}}">
         </div>
         <div class="pref">
-          <label for="showTabsInput">Show tabs</label>
+          <label for="showTabsInput">显示选项卡</label>
           <input is="iron-input" type="checkbox" id="showTabsInput"
               on-tap="_handleShowTabsTap">
         </div>
@@ -137,12 +137,12 @@ limitations under the License.
               on-tap="_handleShowTrailingWhitespaceTap">
         </div>
         <div class="pref">
-          <label for="syntaxHighlightInput">Syntax highlighting</label>
+          <label for="syntaxHighlightInput">语法高亮</label>
           <input is="iron-input" type="checkbox" id="syntaxHighlightInput"
               on-tap="_handleSyntaxHighlightTap">
         </div>
         <div class="pref">
-          <label for="automaticReviewInput">Automatically mark viewed files reviewed</label>
+          <label for="automaticReviewInput">自动标记查看过的文件为已审查</label>
           <input
               is="iron-input"
               id="automaticReviewInput"
@@ -150,7 +150,7 @@ limitations under the License.
               on-tap="_handleAutomaticReviewTap">
         </div>
         <div class="pref">
-          <label for="ignoreWhitespace">Ignore Whitespace</label>
+          <label for="ignoreWhitespace">忽略空白</label>
           <select id="ignoreWhitespace" on-change="_handleIgnoreWhitespaceChange">
             <option value="IGNORE_NONE">None</option>
             <option value="IGNORE_TRAILING">Trailing</option>
@@ -161,9 +161,9 @@ limitations under the License.
       </div>
       <div class="actions">
         <gr-button id="cancelButton" link on-tap="_handleCancel">
-            Cancel</gr-button>
+            取消</gr-button>
         <gr-button id="saveButton" link primary on-tap="_handleSave">
-            Save</gr-button>
+            保存</gr-button>
       </div>
     </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

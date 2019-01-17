@@ -73,17 +73,17 @@ limitations under the License.
     </style>
     <div class$="banner [[_computeBannerClass(_showDraftsBanner)]]">
       <div>
-        You have draft comments on closed changes.
-        <a href$="[[_computeDraftsLink(_showDraftsBanner)]]" target="_blank">(view all)</a>
+        你正在写的评论所在的提交已经被关闭。
+        <a href$="[[_computeDraftsLink(_showDraftsBanner)]]" target="_blank">查看全部</a>
       </div>
       <div>
         <gr-button
             class="delete"
             link
-            on-tap="_handleOpenDeleteDialog">Delete All</gr-button>
+            on-tap="_handleOpenDeleteDialog">全部删除</gr-button>
       </div>
     </div>
-    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+    <div class="loading" hidden$="[[!_loading]]">加载中...</div>
     <div hidden$="[[_loading]]" hidden>
       <gr-user-header
           user-id="[[params.user]]"
@@ -114,11 +114,10 @@ limitations under the License.
           on-confirm="_handleConfirmDelete"
           on-cancel="_closeConfirmDeleteOverlay">
         <div class="header" slot="header">
-          Delete comments
+          删除评论
         </div>
         <div class="main" slot="main">
-          Are you sure you want to delete all your draft comments in closed changes? This action
-          cannot be undone.
+          确定要删除你在已关闭的提交中撰写的所有评论吗？此操作不可撤回。
         </div>
       </gr-dialog>
     </gr-overlay>

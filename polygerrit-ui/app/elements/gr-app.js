@@ -387,6 +387,7 @@
       } else {
         document.title = '';
       }
+      document.title = '代码评审子系统';
     },
 
     _showKeyboardShortcuts(e) {

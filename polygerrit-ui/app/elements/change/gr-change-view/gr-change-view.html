@@ -357,7 +357,7 @@ limitations under the License.
         }
       }
     </style>
-    <div class="container loading" hidden$="[[!_loading]]">Loading...</div>
+    <div class="container loading" hidden$="[[!_loading]]">加载中...</div>
     <div
         id="mainContent"
         class="container"
@@ -463,7 +463,7 @@ limitations under the License.
                 <gr-button link
                     class="editCommitMessage"
                     on-tap="_handleEditCommitMessage"
-                    hidden$="[[_hideEditCommitMessage]]">Edit</gr-button>
+                    hidden$="[[_hideEditCommitMessage]]">编辑</gr-button>
                 <div class="changeId" hidden$="[[!_changeIdCommitMessageError]]">
                   <hr>
                   Change-Id:
@@ -568,13 +568,13 @@ limitations under the License.
       <paper-tabs
           id="commentTabs"
           on-selected-changed="_handleTabChange">
-        <paper-tab class="changeLog">Change Log</paper-tab>
+        <paper-tab class="changeLog">修改记录</paper-tab>
         <paper-tab
             class="commentThreads">
           <gr-tooltip-content
               has-tooltip
               title$="[[_computeTotalCommentCounts(_change.unresolved_comment_count, _changeComments)]]">
-            <span>Comment Threads</span></gr-tooltip-content>
+            <span>评论主线</span></gr-tooltip-content>
         </paper-tab>
       </paper-tabs>
       <template is="dom-if" if="[[_showMessagesView]]">

@@ -71,7 +71,7 @@ limitations under the License.
         }
       }
     </style>
-    <div class="loading" hidden$="[[!_loading]]" hidden>Loading...</div>
+    <div class="loading" hidden$="[[!_loading]]" hidden>加载中...</div>
     <div hidden$="[[_loading]]" hidden>
       <gr-repo-header
           repo="[[_repo]]"
@@ -90,7 +90,7 @@ limitations under the License.
           on-toggle-star="_handleToggleStar"
           on-toggle-reviewed="_handleToggleReviewed"></gr-change-list>
       <nav class$="[[_computeNavClass(_loading)]]">
-          Page [[_computePage(_offset, _changesPerPage)]]
+          页面 [[_computePage(_offset, _changesPerPage)]]
           <a id="prevArrow"
               href$="[[_computeNavLink(_query, _offset, -1, _changesPerPage)]]"
               class$="[[_computePrevArrowClass(_offset)]]">

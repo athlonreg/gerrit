@@ -109,7 +109,7 @@ limitations under the License.
           <gr-button
               link
               id="deleteBtn"
-              on-tap="_handleRemoveReference">Remove</gr-button>
+              on-tap="_handleRemoveReference">移除</gr-button>
         </div><!-- end header -->
         <div class="sectionContent">
           <template
@@ -127,7 +127,7 @@ limitations under the License.
             </gr-permission>
           </template>
           <div id="addPermission">
-            Add permission:
+            添加权限:
             <select id="permissionSelect">
               <!-- called with a third parameter so that permissions update
                   after a new section is added. -->
@@ -140,17 +140,17 @@ limitations under the License.
             <gr-button
                 link
                 id="addBtn"
-                on-tap="_handleAddPermission">Add</gr-button>
+                on-tap="_handleAddPermission">添加</gr-button>
           </div>
           <!-- end addPermission -->
         </div><!-- end sectionContent -->
       </div><!-- end mainContainer -->
       <div id="deletedContainer">
-        <span>[[_computeSectionName(section.id)]] was deleted</span>
+        <span>[[_computeSectionName(section.id)]] 已删除</span>
         <gr-button
             link
             id="undoRemoveBtn"
-            on-tap="_handleUndoRemove">Undo</gr-button>
+            on-tap="_handleUndoRemove">撤销</gr-button>
       </div><!-- end deletedContainer -->
     </fieldset>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

@@ -69,18 +69,15 @@ limitations under the License.
       }
     </style>
     <div class="container gr-form-styles">
-      <header>Please confirm your contact information</header>
-      <div class="loadingMessage">Loading...</div>
+      <header>请确认你的联系信息</header>
+      <div class="loadingMessage">加载中...</div>
       <main>
         <p>
-          The following contact information was automatically obtained when you
-          signed in to the site. This information is used to display who you are
-          to others, and to send updates to code reviews you have either started
-          or subscribed to.
+          以下联系方式是您在登录网站时自动获取的，这些信息用于向其他人显示您是谁，并向您订阅或正在参与的项目有更新时发送提醒。
         </p>
         <hr>
         <section>
-          <div class="title">Full Name</div>
+          <div class="title">全名</div>
           <input
               is="iron-input"
               id="name"
@@ -88,7 +85,7 @@ limitations under the License.
               disabled="[[_saving]]">
         </section>
         <section class$="[[_computeUsernameClass(_usernameMutable)]]">
-          <div class="title">Username</div>
+          <div class="title">用户名</div>
           <input
               is="iron-input"
               id="username"
@@ -96,7 +93,7 @@ limitations under the License.
               disabled="[[_saving]]">
         </section>
         <section>
-          <div class="title">Preferred Email</div>
+          <div class="title">常用邮箱</div>
           <select
               id="email"
               disabled="[[_saving]]">
@@ -108,8 +105,8 @@ limitations under the License.
         </section>
         <hr>
         <p>
-          More configuration options for Gerrit may be found in the
-          <a on-tap="close" href$="[[settingsUrl]]">settings</a>.
+          更多配置信息的修改请点击下方的 设置 
+          <a on-tap="close" href$="[[settingsUrl]]">设置</a>.
         </p>
       </main>
       <footer>
@@ -117,13 +114,13 @@ limitations under the License.
             id="closeButton"
             link
             disabled="[[_saving]]"
-            on-tap="_handleClose">Close</gr-button>
+            on-tap="_handleClose">关闭</gr-button>
         <gr-button
             id="saveButton"
             primary
             link
             disabled="[[_computeSaveDisabled(_account.name, _account.email, _saving)]]"
-            on-tap="_handleSave">Save</gr-button>
+            on-tap="_handleSave">保存</gr-button>
       </footer>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

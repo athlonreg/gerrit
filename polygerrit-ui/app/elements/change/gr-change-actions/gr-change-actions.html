@@ -153,7 +153,7 @@ limitations under the License.
             </gr-button>
           </template>
         </section>
-      <gr-button hidden$="[[!_loading]]" disabled>Loading actions...</gr-button>
+      <gr-button hidden$="[[!_loading]]" disabled>正在执行...</gr-button>
       <gr-dropdown
           id="moreActions"
           link
@@ -165,7 +165,7 @@ limitations under the License.
           disabled-ids="[[_disabledMenuActions]]"
           items="[[_menuActions]]">
           <iron-icon icon="gr-icons:more-vert"></iron-icon>
-          <span id="moreMessage">More</span>
+          <span id="moreMessage">更多</span>
         </gr-dropdown>
     </div>
     <gr-overlay id="overlay" with-backdrop>
@@ -216,7 +216,7 @@ limitations under the License.
           on-confirm="_handleCreateFollowUpChange"
           on-cancel="_handleCloseCreateFollowUpChange">
         <div class="header" slot="header">
-          Create Follow-Up Change
+          创建后续更改
         </div>
         <div class="main" slot="main">
           <gr-create-change-dialog
@@ -235,10 +235,10 @@ limitations under the License.
           on-cancel="_handleConfirmDialogCancel"
           on-confirm="_handleDeleteConfirm">
         <div class="header" slot="header">
-          Delete Change
+          删除更改
         </div>
         <div class="main" slot="main">
-          Do you really want to delete the change?
+          确定要删除这次更改吗？
         </div>
       </gr-dialog>
       <gr-dialog
@@ -249,10 +249,10 @@ limitations under the License.
           on-cancel="_handleConfirmDialogCancel"
           on-confirm="_handleDeleteEditConfirm">
         <div class="header" slot="header">
-          Delete Change Edit
+          删除修改编辑
         </div>
         <div class="main" slot="main">
-          Do you really want to delete the edit?
+          确定要删除修改编辑吗？
         </div>
       </gr-dialog>
     </gr-overlay>

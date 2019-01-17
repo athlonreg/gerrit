@@ -126,14 +126,14 @@ limitations under the License.
       <gr-button
           link
           id="removeBtn"
-          on-tap="_handleRemoveRule">Remove</gr-button>
+          on-tap="_handleRemoveRule">移除</gr-button>
     </div>
     <div
         id="deletedContainer"
         class$="gr-form-styles [[_computeSectionClass(editing, _deleted)]]">
-      [[groupName]] was deleted
+      [[groupName]] 已删除
       <gr-button link
-          id="undoRemoveBtn" on-tap="_handleUndoRemove">Undo</gr-button>
+          id="undoRemoveBtn" on-tap="_handleUndoRemove">撤销</gr-button>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

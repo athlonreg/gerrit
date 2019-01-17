@@ -49,8 +49,8 @@ limitations under the License.
       <table>
         <thead>
           <tr>
-            <th class="nameHeader">Name</th>
-            <th class="url-header">URL</th>
+            <th class="nameHeader">名称</th>
+            <th class="url-header">链接</th>
           </tr>
         </thead>
         <tbody>
@@ -77,7 +77,7 @@ limitations under the License.
                     link
                     data-index="[[index]]"
                     on-tap="_handleDeleteButton"
-                    class="remove-button">Delete</gr-button>
+                    class="remove-button">删除</gr-button>
               </td>
             </tr>
           </template>
@@ -105,7 +105,7 @@ limitations under the License.
               <gr-button
                   link
                   disabled$="[[_computeAddDisabled(_newName, _newUrl)]]"
-                  on-tap="_handleAddButton">Add</gr-button>
+                  on-tap="_handleAddButton">增加</gr-button>
             </th>
           </tr>
         </tfoot>

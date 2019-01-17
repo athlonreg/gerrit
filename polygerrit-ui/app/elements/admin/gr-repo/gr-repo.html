@@ -65,7 +65,7 @@ limitations under the License.
           <a href$="[[_computeChangesUrl(repo)]]">查看提交记录</a>
         </div>
       </div>
-      <div id="loading" class$="[[_computeLoadingClass(_loading)]]">Loading...</div>
+      <div id="loading" class$="[[_computeLoadingClass(_loading)]]">加载中...</div>
       <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
         <div id="downloadContent" class$="[[_computeDownloadClass(_schemes)]]">
           <h2 id="download">仓库下载</h2>
@@ -87,7 +87,7 @@ limitations under the License.
                   id="descriptionInput"
                   class="description"
                   autocomplete="on"
-                  placeholder="<Insert repo description here>"
+                  placeholder="<在这里插入仓库介绍>"
                   bind-value="{{_repoConfig.description}}"
                   disabled$="[[_readOnly]]"></iron-autogrow-textarea>
             </fieldset>

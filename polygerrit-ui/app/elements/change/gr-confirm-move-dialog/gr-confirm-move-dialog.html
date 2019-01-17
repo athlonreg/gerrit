@@ -62,13 +62,13 @@ limitations under the License.
         confirm-label="Move Change"
         on-confirm="_handleConfirmTap"
         on-cancel="_handleCancelTap">
-      <div class="header" slot="header">Move Change to Another Branch</div>
+      <div class="header" slot="header">将修改移动至另一个分支</div>
       <div class="main" slot="main">
         <p class="warning">
-          Warning: moving a change will not change its parents.
+          警告: 移动修改不会改变他的上一级修改。
         </p>
         <label for="branchInput">
-          Move change to branch
+          移动修改到分支
         </label>
         <gr-autocomplete
             id="branchInput"
@@ -77,7 +77,7 @@ limitations under the License.
             placeholder="Destination branch">
         </gr-autocomplete>
         <label for="messageInput">
-          Move Change Message
+          移动修改信息
         </label>
         <iron-autogrow-textarea
             id="messageInput"

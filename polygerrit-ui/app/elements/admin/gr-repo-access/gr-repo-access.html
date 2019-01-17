@@ -74,7 +74,7 @@ limitations under the License.
       </div>
       <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
         <h3 id="inheritsFrom" class$="[[_computeShowInherit(_inheritsFrom)]]">
-          <span class="rightsText">Rights Inherit From</span>
+          <span class="rightsText">权限继承自</span>
           <a
               href$="[[_computeParentHref(_inheritsFrom.name)]]"
               rel="noopener"
@@ -87,7 +87,7 @@ limitations under the License.
               on-commit="_handleUpdateInheritFrom"></gr-autocomplete>
         </h3>
         <div class$="weblinks [[_computeWebLinkClass(_weblinks)]]">
-          History:
+          历史记录:
           <template is="dom-repeat" items="[[_weblinks]]" as="link">
             <a href="[[link.url]]" class="weblink" rel="noopener" target="[[link.target]]">
               [[link.name]]
@@ -100,12 +100,12 @@ limitations under the License.
             primary
             class$="[[_computeSaveBtnClass(_ownerOf)]]"
             on-tap="_handleSave"
-            disabled$="[[!_modified]]">Save</gr-button>
+            disabled$="[[!_modified]]">保存</gr-button>
         <gr-button id="saveReviewBtn"
             primary
             class$="[[_computeSaveReviewBtnClass(_canUpload)]]"
             on-tap="_handleSaveForReview"
-            disabled$="[[!_modified]]">Save for review</gr-button>
+            disabled$="[[!_modified]]">保存以审查</gr-button>
         <template
             is="dom-repeat"
             items="{{_sections}}"
@@ -124,7 +124,7 @@ limitations under the License.
         </template>
         <div class="referenceContainer">
           <gr-button id="addReferenceBtn"
-              on-tap="_handleCreateSection">Add Reference</gr-button>
+              on-tap="_handleCreateSection">添加引用</gr-button>
         </div>
       </div>
     </main>

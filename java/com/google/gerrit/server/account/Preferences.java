@@ -397,12 +397,12 @@ public class Preferences {
       my = my(defaultCfg);
     }
     if (my.isEmpty()) {
-      my.add(new MenuItem("Changes", "#/dashboard/self", null));
-      my.add(new MenuItem("Draft Comments", "#/q/has:draft", null));
-      my.add(new MenuItem("Edits", "#/q/has:edit", null));
-      my.add(new MenuItem("Watched Changes", "#/q/is:watched+is:open", null));
-      my.add(new MenuItem("Starred Changes", "#/q/is:starred", null));
-      my.add(new MenuItem("Groups", "#/groups/self", null));
+      my.add(new MenuItem("修改提交", "#/dashboard/self", null));
+      my.add(new MenuItem("撰写评论", "#/q/has:draft", null));
+      my.add(new MenuItem("修改编辑", "#/q/has:edit", null));
+      my.add(new MenuItem("关注的修改", "#/q/is:watched+is:open", null));
+      my.add(new MenuItem("收藏的修改", "#/q/is:starred", null));
+      my.add(new MenuItem("我的群组", "#/groups/self", null));
     }
     return my;
   }

@@ -35,13 +35,13 @@ limitations under the License.
     </style>
     <table id="list" class="genericList">
       <tr class="headerRow">
-        <th class="date topHeader">Date</th>
-        <th class="type topHeader">Type</th>
-        <th class="member topHeader">Member</th>
-        <th class="by-user topHeader">By User</th>
+        <th class="date topHeader">日期</th>
+        <th class="type topHeader">类型</th>
+        <th class="member topHeader">成员</th>
+        <th class="by-user topHeader">操作者</th>
       </tr>
       <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
-        <td>Loading...</td>
+        <td>加载中...</td>
       </tr>
       <template is="dom-repeat" items="[[_auditLog]]"
           class$="[[computeLoadingClass(_loading)]]">

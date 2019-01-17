@@ -35,18 +35,18 @@ limitations under the License.
     <style include="gr-subpage-styles"></style>
     <style include="gr-form-styles"></style>
     <main class="gr-form-styles read-only">
-      <h1 id="Title">Repository Commands</h1>
-      <div id="loading" class$="[[_computeLoadingClass(_loading)]]">Loading...</div>
+      <h1 id="Title">仓库指令</h1>
+      <div id="loading" class$="[[_computeLoadingClass(_loading)]]">加载中...</div>
       <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
-        <h2 id="options">Command</h2>
+        <h2 id="options">命令</h2>
         <div id="form">
           <gr-repo-command
-              title="Create change"
+              title="新增提交"
               on-command-tap="_createNewChange">
           </gr-repo-command>
           <gr-repo-command
               id="editRepoConfig"
-              title="Edit repo config"
+              title="修改仓库配置"
               on-command-tap="_handleEditRepoConfig">
           </gr-repo-command>
           <gr-repo-command
@@ -72,7 +72,7 @@ limitations under the License.
           on-confirm="_handleCreateChange"
           on-cancel="_handleCloseCreateChange">
         <div class="header" slot="header">
-          Create Change
+          新增提交
         </div>
         <div class="main" slot="main">
           <gr-create-change-dialog

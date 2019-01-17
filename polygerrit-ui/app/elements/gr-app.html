@@ -213,18 +213,18 @@ limitations under the License.
     <footer r="contentinfo" class$="[[_computeShadowClass(_isShadowDom)]]">
       <div>
         Powered by <a href="https://www.gerritcodereview.com/" rel="noopener"
-        target="_blank">Gerrit Code Review</a>
-        ([[_version]])
+        target="_blank">生态开发团队</a>
+        <!-- ([[_version]]) -->
       </div>
       <div>
-        <a class="feedback"
+        <!-- <a class="feedback"
             href$="[[_feedbackUrl]]"
-            rel="noopener" target="_blank">Send feedback</a>
+            rel="noopener" target="_blank">Send feedback</a> -->
         <template is="dom-if" if="[[_computeShowGwtUiLink(_serverConfig)]]">
           |
           <a id="gwtLink" href$="[[computeGwtUrl(_path)]]" rel="external">Switch to Old UI</a>
         </template>
-        | Press &ldquo;?&rdquo; for keyboard shortcuts
+        | 按 &ldquo;?&rdquo; 查看快捷键
       </div>
     </footer>
     <gr-overlay id="keyboardShortcuts" with-backdrop>

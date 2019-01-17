@@ -73,12 +73,12 @@ limitations under the License.
     </style>
     <main class$="gr-form-styles [[_computeHideItemClass(_groupOwner, _isAdmin)]]">
       <div id="loading" class$="[[_computeLoadingClass(_loading)]]">
-        Loading...
+        加载中...
       </div>
       <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
         <h1 id="Title">[[_groupName]]</h1>
         <div id="form">
-          <h3 id="members">Members</h3>
+          <h3 id="members">成员</h3>
           <fieldset>
             <span class="value">
               <gr-autocomplete
@@ -97,9 +97,9 @@ limitations under the License.
             </gr-button>
             <table id="groupMembers">
               <tr class="headerRow">
-                <th class="nameHeader">Name</th>
-                <th class="emailAddressHeader">Email Address</th>
-                <th class="deleteHeader">Delete Member</th>
+                <th class="nameHeader">姓名</th>
+                <th class="emailAddressHeader">电子邮件</th>
+                <th class="deleteHeader">删除成员</th>
               </tr>
               <tbody>
                 <template is="dom-repeat" items="[[_groupMembers]]">
@@ -112,7 +112,7 @@ limitations under the License.
                       <gr-button
                           class="deleteMembersButton"
                           on-tap="_handleDeleteMember">
-                        Delete
+                        删除
                       </gr-button>
                     </td>
                   </tr>
@@ -120,7 +120,7 @@ limitations under the License.
               </tbody>
             </table>
           </fieldset>
-          <h3 id="includedGroups">Included Groups</h3>
+          <h3 id="includedGroups">包含的群组</h3>
           <fieldset>
             <span class="value">
               <gr-autocomplete
@@ -139,10 +139,10 @@ limitations under the License.
             </gr-button>
             <table id="includedGroups">
               <tr class="headerRow">
-                <th class="groupNameHeader">Group Name</th>
-                <th class="descriptionHeader">Description</th>
+                <th class="groupNameHeader">组名</th>
+                <th class="descriptionHeader">简介</th>
                 <th class="deleteIncludedHeader">
-                  Delete Group
+                  删除群组
                 </th>
               </tr>
               <tbody>
@@ -164,7 +164,7 @@ limitations under the License.
                       <gr-button
                           class="deleteIncludedGroupButton"
                           on-tap="_handleDeleteIncludedGroup">
-                        Delete
+                        删除
                       </gr-button>
                     </td>
                   </tr>

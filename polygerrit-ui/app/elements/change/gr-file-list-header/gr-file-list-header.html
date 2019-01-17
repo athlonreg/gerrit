@@ -154,7 +154,7 @@ limitations under the License.
     </style>
     <div class$="patchInfo-header [[_computeEditModeClass(editMode)]] [[_computePatchInfoClass(patchNum, allPatchSets)]]">
       <div class="patchInfo-left">
-        <h3 class="label">Files</h3>
+        <h3 class="label">文件</h3>
         <div class="patchInfoContent">
           <gr-patch-range-select
               id="rangeSelect"
@@ -214,12 +214,12 @@ limitations under the License.
         <span class$="[[_computeUploadHelpContainerClass(change, account)]]">
           <gr-button link
               class="upload"
-              on-tap="_handleUploadTap">Update Change</gr-button>
+              on-tap="_handleUploadTap">更新修改</gr-button>
         </span>
         <span class="downloadContainer desktop">
           <gr-button link
               class="download"
-              on-tap="_handleDownloadTap">Download</gr-button>
+              on-tap="_handleDownloadTap">下载</gr-button>
         </span>
         <span class$="includedInContainer [[_hideIncludedIn(change)]] desktop">
           <gr-button link
@@ -245,7 +245,7 @@ limitations under the License.
         </template>
         <div class="fileViewActions">
           <span class="separator"></span>
-          <span class="fileViewActionsLabel">Diff view:</span>
+          <span class="fileViewActionsLabel">对比:</span>
           <gr-diff-mode-selector
               id="modeSelect"
               mode="{{diffViewMode}}"

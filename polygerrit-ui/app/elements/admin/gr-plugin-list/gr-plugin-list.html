@@ -35,12 +35,12 @@ limitations under the License.
         path="[[_path]]">
       <table id="list" class="genericList">
         <tr class="headerRow">
-          <th class="name topHeader">Plugin Name</th>
-          <th class="version topHeader">Version</th>
-          <th class="status topHeader">Status</th>
+          <th class="name topHeader">名称</th>
+          <th class="version topHeader">版本</th>
+          <th class="status topHeader">状态</th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
-          <td>Loading...</td>
+          <td>加载中...</td>
         </tr>
         <tbody class$="[[computeLoadingClass(_loading)]]">
           <template is="dom-repeat" items="[[_shownPlugins]]">

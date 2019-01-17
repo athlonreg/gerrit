@@ -41,20 +41,20 @@ limitations under the License.
     <style include="gr-form-styles"></style>
     <main class="gr-form-styles read-only">
       <div id="loading" class$="[[_computeLoadingClass(_loading)]]">
-        Loading...
+        加载中...
       </div>
       <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
         <h1 id="Title">[[_groupName]]</h1>
-        <h2 id="configurations">General</h2>
+        <h2 id="configurations">常规</h2>
         <div id="form">
           <fieldset>
-            <h3 id="groupUUID">Group UUID</h3>
+            <h3 id="groupUUID">群组 UUID</h3>
             <fieldset>
               <gr-copy-clipboard
                   text="[[_groupConfig.id]]"></gr-copy-clipboard>
             </fieldset>
             <h3 id="groupName" class$="[[_computeHeaderClass(_rename)]]">
-              Group Name
+              群组组名
             </h3>
             <fieldset>
               <span class="value">
@@ -68,11 +68,11 @@ limitations under the License.
                     id="inputUpdateNameBtn"
                     on-tap="_handleSaveName"
                     disabled="[[!_rename]]">
-                  Rename Group</gr-button>
+                  修改组名</gr-button>
               </span>
             </fieldset>
             <h3 class$="[[_computeHeaderClass(_owner)]]">
-              Owners
+              群组所有者
             </h3>
             <fieldset>
               <span class="value">
@@ -88,11 +88,11 @@ limitations under the License.
                 <gr-button
                     on-tap="_handleSaveOwner"
                     disabled="[[!_owner]]">
-                  Change Owners</gr-button>
+                  修改所有者</gr-button>
               </span>
             </fieldset>
             <h3 class$="[[_computeHeaderClass(_description)]]">
-              Description
+              群组简介
             </h3>
             <fieldset>
               <div>
@@ -106,17 +106,17 @@ limitations under the License.
                 <gr-button
                     on-tap="_handleSaveDescription"
                     disabled="[[!_description]]">
-                  Save Description
+                  保存简介
                 </gr-button>
               </span>
             </fieldset>
             <h3 id="options" class$="[[_computeHeaderClass(_options)]]">
-              Group Options
+              其他设置
             </h3>
             <fieldset id="visableToAll">
               <section>
                 <span class="title">
-                  Make group visible to all registered users
+                  使群组对所有注册用户可见
                 </span>
                 <span class="value">
                   <gr-select
@@ -134,7 +134,7 @@ limitations under the License.
                 <gr-button
                     on-tap="_handleSaveOptions"
                     disabled="[[!_options]]">
-                  Save Group Options
+                  保存修改
                 </gr-button>
               </span>
             </fieldset>

@@ -38,19 +38,19 @@
   const DOCUMENTATION_LINKS = [
     {
       url: '/index.html',
-      name: 'Table of Contents',
+      name: '文档列表',
     },
     {
       url: '/user-search.html',
-      name: 'Searching',
+      name: '搜索',
     },
     {
       url: '/user-upload.html',
-      name: 'Uploading',
+      name: '上传',
     },
     {
       url: '/access-control.html',
-      name: 'Access Control',
+      name: '访问控制',
     },
     {
       url: '/rest-api.html',
@@ -58,7 +58,7 @@
     },
     {
       url: '/intro-project-owner.html',
-      name: 'Project Owner Guide',
+      name: '项目所有者指南',
     },
   ];
 

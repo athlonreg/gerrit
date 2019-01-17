@@ -43,12 +43,12 @@ limitations under the License.
         path="[[_path]]">
       <table id="list" class="genericList">
         <tr class="headerRow">
-          <th class="name topHeader">Group Name</th>
-          <th class="description topHeader">Group Description</th>
-          <th class="visibleToAll topHeader">Visible To All</th>
+          <th class="name topHeader">群组名称</th>
+          <th class="description topHeader">群组介绍</th>
+          <th class="visibleToAll topHeader">对所有人可见</th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
-          <td>Loading...</td>
+          <td>加载中...</td>
         </tr>
         <tbody class$="[[computeLoadingClass(_loading)]]">
           <template is="dom-repeat" items="[[_shownGroups]]">
@@ -73,7 +73,7 @@ limitations under the License.
           on-confirm="_handleCreateGroup"
           on-cancel="_handleCloseCreate">
         <div class="header" slot="header">
-          Create Group
+          创建群组
         </div>
         <div class="main" slot="main">
           <gr-create-group-dialog
