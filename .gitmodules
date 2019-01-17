@@ -32,3 +32,12 @@
 	path = plugins/singleusergroup
 	url = https://gerrit.googlesource.com/plugins/singleusergroup
 	branch = .
+[submodule "plugins/gitiles"]
+        path = plugins/gitiles
+        url = https://gerrit.googlesource.com/plugins/gitiles
+        branch = .
+
+[submodule "plugins/oauth"]
+        path = plugins/oauth
+        url = https://gerrit.googlesource.com/plugins/oauth
+        branch = .
