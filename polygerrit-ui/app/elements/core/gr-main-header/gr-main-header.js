@@ -194,7 +194,7 @@
       const docLinks = this._getDocLinks(docBaseUrl, DOCUMENTATION_LINKS);
       if (docLinks.length) {
         links.push({
-          title: 'Documentation',
+          title: '文档',
           links: docLinks,
           class: 'hideOnMobile',
         });
