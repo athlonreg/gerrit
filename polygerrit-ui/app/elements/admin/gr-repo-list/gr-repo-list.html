@@ -41,14 +41,14 @@ limitations under the License.
         path="[[_path]]">
       <table id="list" class="genericList">
         <tr class="headerRow">
-          <th class="name topHeader">Repository Name</th>
-          <th class="description topHeader">Repository Description</th>
-          <th class="changesLink topHeader">Changes</th>
-          <th class="repositoryBrowser topHeader">Repository Browser</th>
-          <th class="readOnly topHeader">Read only</th>
+          <th class="name topHeader">仓库名称</th>
+          <th class="description topHeader">仓库介绍</th>
+          <th class="changesLink topHeader">修改历史</th>
+          <th class="repositoryBrowser topHeader">浏览仓库</th>
+          <th class="readOnly topHeader">只读</th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
-          <td>Loading...</td>
+          <td>加载中...</td>
         </tr>
         <tbody class$="[[computeLoadingClass(_loading)]]">
           <template is="dom-repeat" items="[[_shownRepos]]">
@@ -57,7 +57,7 @@ limitations under the License.
                 <a href$="[[_computeRepoUrl(item.name)]]">[[item.name]]</a>
               </td>
               <td class="description">[[item.description]]</td>
-              <td class="changesLink"><a href$="[[_computeChangesLink(item.name)]]">(view all)</a></td>
+              <td class="changesLink"><a href$="[[_computeChangesLink(item.name)]]">(查看全部)</a></td>
               <td class="repositoryBrowser">
                 <template is="dom-repeat"
                     items="[[_computeWeblink(item)]]" as="link">
