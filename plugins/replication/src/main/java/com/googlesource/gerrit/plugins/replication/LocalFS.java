@@ -34,7 +34,7 @@ public class LocalFS implements AdminApi {
   }
 
   @Override
-  public boolean createProject(Project.NameKey project, String head) {
+  public void createProject(Project.NameKey project, String head) {
     try (Repository repo = new FileRepository(uri.getPath())) {
       repo.create(true /* bare */);
 
@@ -46,9 +46,7 @@ public class LocalFS implements AdminApi {
       repLog.info("Created local repository: {}", uri);
     } catch (IOException e) {
       repLog.error("Error creating local repository {}", uri.getPath(), e);
-      return false;
     }
-    return true;
   }
 
   @Override

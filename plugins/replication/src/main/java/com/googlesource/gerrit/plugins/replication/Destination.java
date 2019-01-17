@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.replication;
 
 import static com.googlesource.gerrit.plugins.replication.PushResultProcessing.resolveNodeName;
-import static com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig.replaceName;
 import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.NON_EXISTING;
 import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_REASON;
 
@@ -33,12 +32,14 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.account.ListGroupMembership;
+import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
@@ -54,7 +55,6 @@ import com.google.gerrit.server.util.RequestContext;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
-import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.servlet.RequestScoped;
 import com.googlesource.gerrit.plugins.replication.ReplicationState.RefPushResult;
@@ -69,7 +69,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -86,8 +85,6 @@ public class Destination {
   private final Map<URIish, PushOne> pending = new HashMap<>();
   private final Map<URIish, PushOne> inFlight = new HashMap<>();
   private final PushOne.Factory opFactory;
-  private final DeleteProjectTask.Factory deleteProjectFactory;
-  private final UpdateHeadTask.Factory updateHeadFactory;
   private final GitRepositoryManager gitManager;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> userProvider;
@@ -162,20 +159,24 @@ public class Destination {
                 bind(Destination.class).toInstance(Destination.this);
                 bind(RemoteConfig.class).toInstance(config.getRemoteConfig());
                 install(new FactoryModuleBuilder().build(PushOne.Factory.class));
-                install(new FactoryModuleBuilder().build(CreateProjectTask.Factory.class));
-                install(new FactoryModuleBuilder().build(DeleteProjectTask.Factory.class));
-                install(new FactoryModuleBuilder().build(UpdateHeadTask.Factory.class));
-                bind(AdminApiFactory.class);
-                install(new FactoryModuleBuilder().build(GerritRestApi.Factory.class));
-                bind(CloseableHttpClient.class)
-                    .toProvider(HttpClientProvider.class)
-                    .in(Scopes.SINGLETON);
               }
 
               @Provides
               public PerThreadRequestScope.Scoper provideScoper(
-                  final PerThreadRequestScope.Propagator propagator) {
-                final RequestContext requestContext = () -> remoteUser;
+                  final PerThreadRequestScope.Propagator propagator,
+                  final Provider<RequestScopedReviewDbProvider> dbProvider) {
+                final RequestContext requestContext =
+                    new RequestContext() {
+                      @Override
+                      public CurrentUser getUser() {
+                        return remoteUser;
+                      }
+
+                      @Override
+                      public Provider<ReviewDb> getReviewDbProvider() {
+                        return dbProvider.get();
+                      }
+                    };
                 return new PerThreadRequestScope.Scoper() {
                   @Override
                   public <T> Callable<T> scope(Callable<T> callable) {
@@ -186,8 +187,6 @@ public class Destination {
             });
 
     opFactory = child.getInstance(PushOne.Factory.class);
-    deleteProjectFactory = child.getInstance(DeleteProjectTask.Factory.class);
-    updateHeadFactory = child.getInstance(UpdateHeadTask.Factory.class);
     threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
   }
 
@@ -250,35 +249,38 @@ public class Destination {
     try {
       return threadScoper
           .scope(
-              () -> {
-                ProjectState projectState;
-                try {
-                  projectState = projectCache.checkedGet(project);
-                } catch (IOException e) {
-                  return false;
-                }
-                if (projectState == null) {
-                  throw new NoSuchProjectException(project);
-                }
-                if (!projectState.statePermitsRead()) {
-                  return false;
-                }
-                if (!shouldReplicate(projectState, userProvider.get())) {
-                  return false;
-                }
-                if (PushOne.ALL_REFS.equals(ref)) {
+              new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws NoSuchProjectException, PermissionBackendException {
+                  ProjectState projectState;
+                  try {
+                    projectState = projectCache.checkedGet(project);
+                  } catch (IOException e) {
+                    return false;
+                  }
+                  if (projectState == null) {
+                    throw new NoSuchProjectException(project);
+                  }
+                  if (!projectState.statePermitsRead()) {
+                    return false;
+                  }
+                  if (!shouldReplicate(projectState, userProvider.get())) {
+                    return false;
+                  }
+                  if (PushOne.ALL_REFS.equals(ref)) {
+                    return true;
+                  }
+                  try {
+                    permissionBackend
+                        .user(userProvider.get())
+                        .project(project)
+                        .ref(ref)
+                        .check(RefPermission.READ);
+                  } catch (AuthException e) {
+                    return false;
+                  }
                   return true;
                 }
-                try {
-                  permissionBackend
-                      .user(userProvider.get())
-                      .project(project)
-                      .ref(ref)
-                      .check(RefPermission.READ);
-                } catch (AuthException e) {
-                  return false;
-                }
-                return true;
               })
           .call();
     } catch (NoSuchProjectException err) {
@@ -294,17 +296,20 @@ public class Destination {
     try {
       return threadScoper
           .scope(
-              () -> {
-                ProjectState projectState;
-                try {
-                  projectState = projectCache.checkedGet(project);
-                } catch (IOException e) {
-                  return false;
+              new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws NoSuchProjectException, PermissionBackendException {
+                  ProjectState projectState;
+                  try {
+                    projectState = projectCache.checkedGet(project);
+                  } catch (IOException e) {
+                    return false;
+                  }
+                  if (projectState == null) {
+                    throw new NoSuchProjectException(project);
+                  }
+                  return shouldReplicate(projectState, userProvider.get());
                 }
-                if (projectState == null) {
-                  throw new NoSuchProjectException(project);
-                }
-                return shouldReplicate(projectState, userProvider.get());
               })
           .call();
     } catch (NoSuchProjectException err) {
@@ -374,14 +379,6 @@ public class Destination {
       URIish uri = pushOp.getURI();
       pending.remove(uri);
     }
-  }
-
-  void scheduleDeleteProject(URIish uri, Project.NameKey project) {
-    pool.schedule(deleteProjectFactory.create(uri, project), 0, TimeUnit.SECONDS);
-  }
-
-  void scheduleUpdateHead(URIish uri, Project.NameKey project, String newHead) {
-    pool.schedule(updateHeadFactory.create(uri, project, newHead), 0, TimeUnit.SECONDS);
   }
 
   private void addRef(PushOne e, String ref) {
@@ -579,7 +576,8 @@ public class Destination {
         } else if (!remoteNameStyle.equals("slash")) {
           repLog.debug("Unknown remoteNameStyle: {}, falling back to slash", remoteNameStyle);
         }
-        String replacedPath = replaceName(uri.getPath(), name, isSingleProjectMatch());
+        String replacedPath =
+            ReplicationQueue.replaceName(uri.getPath(), name, isSingleProjectMatch());
         if (replacedPath != null) {
           uri = uri.setPath(replacedPath);
           r.add(uri);

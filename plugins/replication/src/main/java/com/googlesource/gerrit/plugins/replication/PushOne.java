@@ -16,7 +16,6 @@ package com.googlesource.gerrit.plugins.replication;
 
 import static com.googlesource.gerrit.plugins.replication.ReplicationQueue.repLog;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
-import static java.util.stream.Collectors.toMap;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.LinkedListMultimap;
@@ -53,6 +52,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
@@ -94,6 +94,7 @@ class PushOne implements ProjectRunnable, CanceledWhileRunning {
   private final RemoteConfig config;
   private final CredentialsProvider credentialsProvider;
   private final PerThreadRequestScope.Scoper threadScoper;
+  private final ReplicationQueue replicationQueue;
 
   private final Project.NameKey projectName;
   private final URIish uri;
@@ -111,7 +112,6 @@ class PushOne implements ProjectRunnable, CanceledWhileRunning {
   private final long createdAt;
   private final ReplicationMetrics metrics;
   private final ProjectCache projectCache;
-  private final CreateProjectTask.Factory createProjectFactory;
   private final AtomicBoolean canceledWhileRunning;
 
   @Inject
@@ -122,11 +122,11 @@ class PushOne implements ProjectRunnable, CanceledWhileRunning {
       RemoteConfig c,
       CredentialsFactory cpFactory,
       PerThreadRequestScope.Scoper ts,
+      ReplicationQueue rq,
       IdGenerator ig,
       ReplicationStateListener sl,
       ReplicationMetrics m,
       ProjectCache pc,
-      CreateProjectTask.Factory cpf,
       @Assisted Project.NameKey d,
       @Assisted URIish u) {
     gitManager = grm;
@@ -135,6 +135,7 @@ class PushOne implements ProjectRunnable, CanceledWhileRunning {
     config = c;
     credentialsProvider = cpFactory.create(c.getName());
     threadScoper = ts;
+    replicationQueue = rq;
     projectName = d;
     uri = u;
     lockRetryCount = 0;
@@ -144,7 +145,6 @@ class PushOne implements ProjectRunnable, CanceledWhileRunning {
     createdAt = System.nanoTime();
     metrics = m;
     projectCache = pc;
-    createProjectFactory = cpf;
     canceledWhileRunning = new AtomicBoolean(false);
     maxRetries = p.getMaxRetries();
   }
@@ -275,9 +275,12 @@ class PushOne implements ProjectRunnable, CanceledWhileRunning {
     try {
       threadScoper
           .scope(
-              () -> {
-                runPushOperation();
-                return null;
+              new Callable<Void>() {
+                @Override
+                public Void call() {
+                  runPushOperation();
+                  return null;
+                }
               })
           .call();
     } catch (Exception e) {
@@ -330,8 +333,7 @@ class PushOne implements ProjectRunnable, CanceledWhileRunning {
       String msg = e.getMessage();
       if (msg.contains("access denied")
           || msg.contains("no such repository")
-          || msg.contains("Git repository not found")
-          || msg.contains("unavailable")) {
+          || msg.contains("Git repository not found")) {
         createRepository();
       } else {
         repLog.error("Cannot replicate {}; Remote repository error: {}", projectName, msg);
@@ -394,11 +396,15 @@ class PushOne implements ProjectRunnable, CanceledWhileRunning {
     if (pool.isCreateMissingRepos()) {
       try {
         Ref head = git.exactRef(Constants.HEAD);
-        if (createProject(projectName, head != null ? getName(head) : null)) {
+        if (replicationQueue.createProject(projectName, head != null ? getName(head) : null)) {
           repLog.warn("Missing repository created; retry replication to {}", uri);
           pool.reschedule(this, Destination.RetryReason.REPOSITORY_MISSING);
         } else {
-          repLog.warn("Missing repository could not be created when replicating {}", uri);
+          repLog.warn(
+              "Missing repository could not be created when replicating {}. "
+                  + "You can only create missing repositories locally, over SSH or when "
+                  + "using adminUrl in replication.config. See documentation for more information.",
+              uri);
         }
       } catch (IOException ioe) {
         stateLog.error(
@@ -409,10 +415,6 @@ class PushOne implements ProjectRunnable, CanceledWhileRunning {
     } else {
       stateLog.error("Cannot replicate to " + uri + "; repository not found", getStatesAsArray());
     }
-  }
-
-  private boolean createProject(Project.NameKey project, String head) {
-    return createProjectFactory.create(project, head).create();
   }
 
   private String getName(Ref ref) {
@@ -457,8 +459,7 @@ class PushOne implements ProjectRunnable, CanceledWhileRunning {
       return Collections.emptyList();
     }
 
-    Map<String, Ref> local =
-        git.getRefDatabase().getRefs().stream().collect(toMap(Ref::getName, r -> r));
+    Map<String, Ref> local = git.getAllRefs();
     boolean filter;
     PermissionBackend.ForProject forProject = permissionBackend.currentUser().project(projectName);
     try {

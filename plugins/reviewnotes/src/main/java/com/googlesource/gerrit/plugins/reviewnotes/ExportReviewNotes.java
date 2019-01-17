@@ -23,11 +23,14 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.sshd.SshCommand;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
@@ -44,6 +47,8 @@ public class ExportReviewNotes extends SshCommand {
   private int threads = 2;
 
   @Inject private GitRepositoryManager gitManager;
+
+  @Inject private SchemaFactory<ReviewDb> database;
 
   @Inject private CreateReviewNotes.Factory reviewNotesFactory;
 
@@ -73,23 +78,24 @@ public class ExportReviewNotes extends SshCommand {
   }
 
   private ListMultimap<Project.NameKey, ChangeNotes> mergedChanges() {
-    try {
+    try (ReviewDb db = database.open()) {
       return MultimapBuilder.hashKeys()
           .arrayListValues()
           .build(
-              notesFactory.create(notes -> notes.getChange().getStatus() == Change.Status.MERGED));
-    } catch (IOException e) {
+              notesFactory.create(
+                  db, notes -> notes.getChange().getStatus() == Change.Status.MERGED));
+    } catch (OrmException | IOException e) {
       stderr.println("Cannot read changes from database " + e.getMessage());
       return ImmutableListMultimap.of();
     }
   }
 
-  private void export(Project.NameKey project, List<ChangeNotes> notes)
+  private void export(ReviewDb db, Project.NameKey project, List<ChangeNotes> notes)
       throws RestApiException, UpdateException {
     retryHelper.execute(
         updateFactory -> {
           try (Repository git = gitManager.openRepository(project)) {
-            CreateReviewNotes crn = reviewNotesFactory.create(project, git);
+            CreateReviewNotes crn = reviewNotesFactory.create(db, project, git);
             crn.createNotes(notes, monitor);
             crn.commitNotes();
           } catch (RepositoryNotFoundException e) {
@@ -122,12 +128,12 @@ public class ExportReviewNotes extends SshCommand {
   private class Worker extends Thread {
     @Override
     public void run() {
-      try {
+      try (ReviewDb db = database.open()) {
         for (; ; ) {
           Map.Entry<Project.NameKey, List<ChangeNotes>> next = next();
           if (next != null) {
             try {
-              export(next.getKey(), next.getValue());
+              export(db, next.getKey(), next.getValue());
             } catch (RestApiException | UpdateException e) {
               stderr.println(e.getMessage());
             }
@@ -135,6 +141,8 @@ public class ExportReviewNotes extends SshCommand {
             break;
           }
         }
+      } catch (OrmException e) {
+        stderr.println(e.getMessage());
       } finally {
         monitor.endWorker();
       }
