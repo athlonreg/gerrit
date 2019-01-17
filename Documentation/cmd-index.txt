@@ -1,0 +1,246 @@
+= Gerrit Code Review - Command Line Tools
+
+== Client
+
+Client commands and hooks can be downloaded via scp, wget or curl
+from Gerrit's daemon, and then executed on the client system.
+
+To download a client command or hook, use scp or an http client:
+
+----
+$ scp -p -P 29418 john.doe@review.example.com:bin/gerrit-cherry-pick ~/bin/
+$ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg .git/hooks/
+
+$ curl -Lo ~/bin/gerrit-cherry-pick http://review.example.com/tools/bin/gerrit-cherry-pick
+$ curl -Lo .git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
+----
+
+For more details on how to determine the correct SSH port number,
+see link:user-upload.html#test_ssh[Testing Your SSH Connection].
+
+[[client_commands]]
+=== Commands
+
+link:cmd-cherry-pick.html[gerrit-cherry-pick]::
+	Download and cherry-pick one or more changes (commits).
+
+[[client_hooks]]
+=== Hooks
+
+Client hooks can be installed into a local Git repository, improving
+the developer experience when working with a Gerrit Code Review
+server.
+
+link:cmd-hook-commit-msg.html[commit-msg]::
+	Automatically generate `Change-Id:` tags in commit messages.
+
+
+== Server
+
+Aside from the standard Git server side actions, Gerrit supports
+several other commands over its internal SSH daemon.  As Gerrit does
+not provide an interactive shell, the commands must be triggered
+from an ssh client, for example:
+
+----
+  $ ssh -p 29418 review.example.com gerrit ls-projects
+----
+
+For more details on how to determine the correct SSH port number,
+see link:user-upload.html#test_ssh[Testing Your SSH Connection].
+
+[[user_commands]]
+=== User Commands
+
+link:cmd-apropos.html[gerrit apropos]::
+	Search Gerrit documentation index.
+
+link:cmd-ban-commit.html[gerrit ban-commit]::
+	Bans a commit from a project's repository.
+
+link:cmd-create-branch.html[gerrit create-branch]::
+	Create a new project branch.
+
+link:cmd-ls-groups.html[gerrit ls-groups]::
+	List groups visible to the caller.
+
+link:cmd-ls-members.html[gerrit ls-members]::
+	List the membership of a group visible to the caller.
+
+link:cmd-ls-projects.html[gerrit ls-projects]::
+	List projects visible to the caller.
+
+link:cmd-query.html[gerrit query]::
+	Query the change database.
+
+'gerrit receive-pack'::
+	'Deprecated alias for `git receive-pack`.'
+
+link:cmd-rename-group.html[gerrit rename-group]::
+	Rename an account group.
+
+link:cmd-review.html[gerrit review]::
+	Verify, approve and/or submit a patch set from the command line.
+
+link:cmd-set-head.html[gerrit set-head]::
+	Change the HEAD reference of a project.
+
+link:cmd-set-project.html[gerrit set-project]::
+	Change a project's settings.
+
+link:cmd-set-project-parent.html[gerrit set-project-parent]::
+	Change the project permissions are inherited from.
+
+link:cmd-set-reviewers.html[gerrit set-reviewers]::
+	Add or remove reviewers on a change.
+
+link:cmd-stream-events.html[gerrit stream-events]::
+	Monitor events occurring in real time.
+
+link:cmd-version.html[gerrit version]::
+	Show the currently executing version of Gerrit.
+
+link:cmd-receive-pack.html[git receive-pack]::
+	Standard Git server side command for client side `git push`.
++
+Also implements the magic associated with uploading commits for
+review.  See link:user-upload.html#push_create[Creating Changes].
+
+git upload-pack::
+	Standard Git server side command for client side `git fetch`.
+
+[[admin_commands]]
+=== Administrator Commands
+
+link:cmd-close-connection.html[gerrit close-connection]::
+	Close the specified SSH connection.
+
+link:cmd-create-account.html[gerrit create-account]::
+	Create a new user account.
+
+link:cmd-create-group.html[gerrit create-group]::
+	Create a new account group.
+
+link:cmd-create-project.html[gerrit create-project]::
+	Create a new project and associated Git repository.
+
+link:cmd-flush-caches.html[gerrit flush-caches]::
+	Flush some/all server caches from memory.
+
+link:cmd-gc.html[gerrit gc]::
+	Run the Git garbage collection.
+
+link:cmd-gsql.html[gerrit gsql]::
+	Administrative interface to active database.
+
+link:cmd-index-activate.html[gerrit index activate]::
+	Activate the latest index version available.
+
+link:cmd-index-start.html[gerrit index start]::
+	Start the online indexer.
+
+link:cmd-index-changes.html[gerrit index changes]::
+	Index one or more changes.
+
+link:cmd-index-changes-in-project.html[gerrit index changes-in-project]::
+	Index all the changes in one or more projects.
+
+link:cmd-logging-ls-level.html[gerrit logging ls-level]::
+	List loggers and their logging level.
+
+link:cmd-logging-set-level.html[gerrit logging set-level]::
+	Set the logging level of loggers.
+
+link:cmd-ls-user-refs.html[gerrit ls-user-refs]::
+	Lists refs visible for a specified user.
+
+link:cmd-plugin-install.html[gerrit plugin add]::
+	Alias for 'gerrit plugin install'.
+
+link:cmd-plugin-enable.html[gerrit plugin enable]::
+	Enable plugins.
+
+link:cmd-plugin-install.html[gerrit plugin install]::
+	Install/Add a plugin.
+
+link:cmd-plugin-ls.html[gerrit plugin ls]::
+	List the installed plugins.
+
+link:cmd-plugin-reload.html[gerrit plugin reload]::
+	Reload/Restart plugins.
+
+link:cmd-plugin-remove.html[gerrit plugin remove]::
+	Disable plugins.
+
+link:cmd-plugin-remove.html[gerrit plugin rm]::
+	Alias for 'gerrit plugin remove'.
+
+link:cmd-reload-config.html[gerrit reload-config]::
+	Apply an updated gerrit.config.
+
+link:cmd-set-account.html[gerrit set-account]::
+	Change an account's settings.
+
+link:cmd-set-members.html[gerrit set-members]::
+	Set group members.
+
+link:cmd-show-caches.html[gerrit show-caches]::
+	Display current cache statistics.
+
+link:cmd-show-connections.html[gerrit show-connections]::
+	Display active client SSH connections.
+
+link:cmd-show-queue.html[gerrit show-queue]::
+	Display the background work queues, including replication.
+
+link:cmd-test-submit-rule.html[gerrit test-submit rule]::
+	Test prolog submit rules.
+
+link:cmd-test-submit-type.html[gerrit test-submit type]::
+	Test prolog submit type.
+
+link:cmd-kill.html[kill]::
+	Kills a scheduled or running task.
+
+link:cmd-show-queue.html[ps]::
+	Alias for 'gerrit show-queue'.
+
+link:cmd-suexec.html[suexec]::
+	Execute a command as any registered user account.
+
+[[trace]]
+=== Trace
+
+For executing SSH commands tracing can be enabled by setting the
+`--trace` and `--trace-id <trace-id>` options. It is recommended to use
+the ID of the issue that is being investigated as trace ID.
+
+----
+  $ ssh -p 29418 review.example.com gerrit create-project --trace --trace-id issue/123 foo/bar
+----
+
+It is also possible to omit the trace ID and get a unique trace ID
+generated.
+
+----
+  $ ssh -p 29418 review.example.com gerrit create-project --trace foo/bar
+----
+
+Enabling tracing results in additional logs with debug information that
+are written to the `error_log`. All logs that correspond to the traced
+request are associated with the trace ID. The trace ID is printed to
+the stderr command output:
+
+----
+  TRACE_ID: 1534174322774-7edf2a7b
+----
+
+Given the trace ID an administrator can find the corresponding logs and
+investigate issues more easily.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -1,0 +1,330 @@
+= gerrit stream-events
+== NAME
+gerrit stream-events - Monitor events occurring in real time.
+
+== SYNOPSIS
+[verse]
+--
+_ssh_ -p <port> <host> _gerrit stream-events_
+--
+
+== DESCRIPTION
+
+Provides a portal into the major events occurring on the server,
+outputting activity data in real-time to the client.  Events are
+filtered by the caller's access permissions, ensuring the caller
+only receives events for changes they can view on the web, or in
+the project repository.
+
+Event output is in JSON, one event per line.
+
+== ACCESS
+Caller must be a member of the privileged 'Administrators' group,
+or have been granted
+link:access-control.html#capability_streamEvents[the 'Stream Events' global capability].
+
+== SCRIPTING
+This command is intended to be used in scripts.
+
+== OPTIONS
+--subscribe|-s::
+	Type of the event to subscribe to.  Multiple --subscribe options
+	may be specified to subscribe to multiple events. When this option
+	is provided, only subscribed events are emitted and all other
+	events are ignored. When this option is omitted, all events are
+	emitted.
+
+== EXAMPLES
+
+----
+$ ssh -p 29418 review.example.com gerrit stream-events
+{"type":"comment-added",change:{"project":"tools/gerrit", ...}, ...}
+{"type":"comment-added",change:{"project":"tools/gerrit", ...}, ...}
+----
+
+Only subscribe to specific event types:
+
+----
+$ ssh -p 29418 review.example.com gerrit stream-events \
+   -s patchset-created -s ref-replicated
+----
+
+== SCHEMA
+The JSON messages consist of nested objects referencing the *change*,
+*patchSet*, *account* involved, and other attributes as appropriate.
+
+Note that any field may be missing in the JSON messages, so consumers of
+this JSON stream should deal with that appropriately.
+
+[[events]]
+== EVENTS
+=== Assignee Changed
+
+Sent when the assignee of a change has been modified.
+
+type:: "assignee-changed"
+
+change:: link:json.html#change[change attribute]
+
+changer:: link:json.html#account[account attribute]
+
+oldAssignee:: Assignee before it was changed.
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+=== Change Abandoned
+
+Sent when a change has been abandoned.
+
+type:: "change-abandoned"
+
+change:: link:json.html#change[change attribute]
+
+patchSet:: link:json.html#patchSet[patchSet attribute]
+
+abandoner:: link:json.html#account[account attribute]
+
+reason:: Reason for abandoning the change.
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+== Change Deleted
+
+Sent when a change has been deleted.
+
+type:: "change-deleted"
+
+change:: link:json.html#change[change attribute]
+
+deleter:: link:json.html#account[account attribute]
+
+=== Change Merged
+
+Sent when a change has been merged into the git repository.
+
+type:: "change-merged"
+
+change:: link:json.html#change[change attribute]
+
+patchSet:: link:json.html#patchSet[patchSet attribute]
+
+submitter:: link:json.html#account[account attribute]
+
+newRev:: The resulting revision of the merge.
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+=== Change Restored
+
+Sent when an abandoned change has been restored.
+
+type:: "change-restored"
+
+change:: link:json.html#change[change attribute]
+
+patchSet:: link:json.html#patchSet[patchSet attribute]
+
+restorer:: link:json.html#account[account attribute]
+
+reason:: Reason for restoring the change.
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+=== Comment Added
+
+Sent when a review comment has been posted on a change.
+
+type:: "comment-added"
+
+change:: link:json.html#change[change attribute]
+
+patchSet:: link:json.html#patchSet[patchSet attribute]
+
+author:: link:json.html#account[account attribute]
+
+approvals:: All link:json.html#approval[approval attributes] granted.
+
+comment:: Review comment cover message.
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+=== Dropped Output
+
+Sent to notify a client that events have been dropped.
+
+type:: "dropped-output"
+
+=== Hashtags Changed
+
+Sent when the link:intro-user.html#hashtags[hashtags] have been added to or
+removed from a change.
+
+type:: "hashtags-changed"
+
+change:: link:json.html#change[change attribute]
+
+editor:: link:json.html#account[account attribute]
+
+added:: List of hashtags added to the change
+
+removed:: List of hashtags removed from the change
+
+hashtags:: List of hashtags on the change after tags were added or removed
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+=== Project Created
+
+Sent when a new project has been created.
+
+type:: "project-created"
+
+projectName:: The created project name
+
+projectHead:: The created project head name
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+=== Patchset Created
+
+Sent when a new change has been uploaded, or a new patch set has been uploaded
+to an existing change.
+
+type:: "patchset-created"
+
+change:: link:json.html#change[change attribute]
+
+patchSet:: link:json.html#patchSet[patchSet attribute]
+
+uploader:: link:json.html#account[account attribute]
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+=== Ref Updated
+
+Sent when a reference is updated in a git repository.
+
+type:: "ref-updated"
+
+submitter:: link:json.html#account[account attribute]
+
+refUpdate:: link:json.html#refUpdate[refUpdate attribute]
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+=== Reviewer Added
+
+Sent when a reviewer is added to a change.
+
+type:: "reviewer-added"
+
+change:: link:json.html#change[change attribute]
+
+patchSet:: link:json.html#patchSet[patchSet attribute]
+
+reviewer:: link:json.html#account[account attribute]
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+=== Reviewer Deleted
+
+Sent when a reviewer (with a vote) is removed from a change.
+
+type:: "reviewer-deleted"
+
+change:: link:json.html#change[change attribute]
+
+patchSet:: link:json.html#patchSet[patchSet attribute]
+
+reviewer:: reviewer that was removed as link:json.html#account[account attribute]
+
+remover:: user that removed the reviewer as link:json.html#account[account attribute]
+
+approvals:: All link:json.html#approval[approval attributes] removed.
+
+comment:: Review comment cover message.
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+=== Topic Changed
+
+Sent when the topic of a change has been changed.
+
+type:: "topic-changed"
+
+change:: link:json.html#change[change attribute]
+
+changer:: link:json.html#account[account attribute]
+
+oldTopic:: Topic name before it was changed.
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+=== Work In Progress State Changed
+
+Sent when the link:intro-user.html#wip[WIP] state of the change has changed.
+
+type:: wip-state-changed
+
+change:: link:json.html#change[change attribute]
+
+changer:: link:json.html#account[account attribute]
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+=== Private State Changed
+
+Sent when the link:intro-user.html#private-changes[private] state of the
+change has changed.
+
+type:: private-state-changed
+
+change:: link:json.html#change[change attribute]
+
+changer:: link:json.html#account[account attribute]
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+=== Vote Deleted
+
+Sent when a vote was removed from a change.
+
+type:: "vote-deleted"
+
+change:: link:json.html#change[change attribute]
+
+patchSet:: link:json.html#patchSet[patchSet attribute]
+
+reviewer:: user whose vote was removed as link:json.html#account[account attribute]
+
+remover:: user who removed the vote as link:json.html#account[account attribute]
+
+approvals:: all votes as link:json.html#approval[approval attributes]
+
+comment:: Review comment cover message.
+
+== SEE ALSO
+
+* link:json.html[JSON Data Formats]
+* link:access-control.html[Access Controls]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

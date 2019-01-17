@@ -1,0 +1,46 @@
+= reindex
+
+== NAME
+reindex - Rebuild the secondary index
+
+== SYNOPSIS
+[verse]
+--
+_java_ -jar gerrit.war _reindex_
+  [--threads]
+  [--changes-schema-version]
+  [--verbose]
+  [--list]
+  [--index]
+--
+
+== DESCRIPTION
+Rebuilds the secondary index.
+
+== OPTIONS
+--threads::
+	Number of threads to use for indexing.
+
+--changes-schema-version::
+	Schema version to reindex; default is most recent version.
+
+--verbose::
+	Output debug information for each change.
+
+--list::
+	List available index names.
+
+--index::
+	Reindex only index with given name. This option can be supplied
+	more than once to reindex multiple indices.
+
+== CONTEXT
+The secondary index must be enabled. See
+link:config-gerrit.html#index.type[index.type].
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

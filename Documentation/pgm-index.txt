@@ -1,0 +1,52 @@
+= Gerrit Code Review - Server Side Administrative Tools
+
+Server side tools can be started by executing the WAR file
+through the Java command line.  For example:
+
+  $ java -jar gerrit.war <tool> [<options>]
+
+Tool should be one of the following names:
+
+== Tools
+
+link:pgm-init.html[init]::
+	Initialize a new Gerrit server installation.
+
+link:pgm-daemon.html[daemon]::
+	Gerrit HTTP, SSH network server.
+
+link:pgm-gsql.html[gsql]::
+	Administrative interface to idle database.
+
+link:pgm-prolog-shell.html[prolog-shell]::
+	Simple interactive Prolog interpreter.
+
+link:pgm-reindex.html[reindex]::
+	Rebuild the secondary index.
+
+link:pgm-SwitchSecureStore.html[SwitchSecureStore]::
+	Change used SecureStore implementation.
+
+link:pgm-rulec.html[rulec]::
+	Compile project-specific Prolog rules to JARs.
+
+version::
+	Display the release version of Gerrit Code Review.
+
+link:pgm-passwd.html[passwd]::
+	Set or reset password in secure.config.
+
+=== Transition Utilities
+
+link:pgm-LocalUsernamesToLowerCase.html[LocalUsernamesToLowerCase]::
+	Convert the local username of every account to lower case.
+
+link:pgm-MigrateAccountPatchReviewDb.html[MigrateAccountPatchReviewDb]::
+	Migrates AccountPatchReviewDb from one database backend to another.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

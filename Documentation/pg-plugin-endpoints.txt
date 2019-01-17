@@ -1,0 +1,143 @@
+= Gerrit Code Review - PolyGerrit Plugin Styling
+
+Plugins should be html-based and imported following PolyGerrit's
+link:pg-plugin-dev.html#loading[dev guide].
+
+Sample code for testing endpoints:
+
+``` js
+Gerrit.install(plugin => {
+  // Change endpoint below
+  const endpoint = 'change-metadata-item';
+  plugin.hook(endpoint).onAttached(element => {
+    console.log(endpoint, element);
+    const el = element.appendChild(document.createElement('div'));
+    el.textContent = 'Ah, there it is. Lovely.';
+    el.style = 'background: pink; line-height: 4em; text-align: center;';
+  });
+});
+```
+
+== Default parameters
+All endpoints receive the following parameters, set as attributes to custom
+components that are instantiated at the endpoint:
+
+* `plugin`
++
+the current plugin instance, the one that is used by `Gerrit.install()`.
+
+* `content`
++
+decorated DOM Element, is only set for registrations that decorate existing
+components.
+
+== Plugin endpoints
+
+The following endpoints are available to plugins.
+
+=== change-view-integration
+The `change-view-integration` extension point is located between `Files` and
+`Messages` section on the change view page, and it may take full page's
+width. Primary purpose is to enable plugins to display custom CI-related
+information (build status, etc).
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `revision`
++
+current revision displayed, an instance of
+link:rest-api-changes.html#revision-info[RevisionInfo]
+
+=== change-metadata-item
+The `change-metadata-item` extension point is located on the bottom of the
+change view left panel, under the `Label Status` and `Links` sections. Its width
+is equal to the left panel's, and its primary purpose is to allow plugins to add
+sections of metadata to the left panel.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `revision`
++
+current revision displayed, an instance of
+link:rest-api-changes.html#revision-info[RevisionInfo]
+
+* `labels`
++
+labels with scores applied to the change, map of the label names to
+link:rest-api-changes.html#label-info[LabelInfo] entries
+
+=== robot-comment-controls
+The `robot-comment-controls` extension point is located inside each comment
+rendered on the diff page, and is only visible when the comment is a robot
+comment, specifically if the comment has a `robot_id` property.
+
+In addition to default parameters, the following are available:
+
+* `comment`
++
+current comment displayed, an instance of
+link:rest-api-changes.html#comment-info[CommentInfo]
+
+=== repo-command
+This endpoint is situated among the repository commands.
+
+In addition to default parameters, the following are available:
+
+* `repoName`
++
+String name of the repository currently being configured.
+
+* `config`
++
+The object representing the repo config.
+
+=== repo-config
+The `repo-config` extension point is located at the bottom of the repository
+configuration settings screen.
+
+In addition to default parameters, the following are available:
+
+* `repoName`
++
+String name of the repository currently being configured.
+
+=== settings-menu-item
+This endpoint is situated at the end of the navigation menu in the settings
+screen.
+
+=== settings-screen
+This endpoint is situated at the end of the body of the settings screen.
+
+=== reply-text
+This endpoint wraps the textarea in the reply dialog.
+
+=== reply-label-scores
+This endpoint decorator wraps the voting buttons in the reply dialog.
+
+=== header-title
+This endpoint wraps the title-text in the application header.
+
+=== confirm-submit-change
+This endpoint is inside the confirm submit dialog. By default it displays a
+generic confirmation message regarding submission of the change. Plugins may add
+content to this message or replace it entirely.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+The change beinng potentially submitted, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `action`
++
+The submit action, including the title and label, an instance of
+link:rest-api-changes.html#action-info[ActionInfo]

@@ -1,0 +1,17 @@
+{
+  "name": "codemirror-editor",
+  "authors": [
+    "kaspern@google.com"
+  ],
+  "license": "http://www.apache.org/licenses/LICENSE-2.0",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+    "codemirror-minified": "^5.37.0"
+  },
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "iron-test-helpers": "^2.0.0"
+  },
+  "private": true
+}

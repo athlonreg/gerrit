@@ -1,0 +1,51 @@
+= Gerrit Code Review - Error Messages
+
+This page provides access to detailed explanations of Gerrit error
+messages. For each error message it is explained why the error is
+occurring and what can be done to solve it.
+
+
+== Error Messages
+
+* link:error-branch-not-found.html[branch ... not found]
+* link:error-change-closed.html[change ... closed]
+* link:error-change-does-not-belong-to-project.html[change ... does not belong to project ...]
+* link:error-change-not-found.html[change ... not found]
+* link:error-commit-already-exists.html[commit already exists]
+* link:error-contains-banned-commit.html[contains banned commit ...]
+* link:error-has-duplicates.html[... has duplicates]
+* link:error-invalid-author.html[invalid author]
+* link:error-invalid-changeid-line.html[invalid Change-Id line format in commit message footer]
+* link:error-invalid-committer.html[invalid committer]
+* link:error-missing-changeid.html[missing Change-Id in commit message footer]
+* link:error-missing-subject.html[missing subject; Change-Id must be in commit message footer]
+* link:error-multiple-changeid-lines.html[multiple Change-Id lines in commit message footer]
+* link:error-no-common-ancestry.html[no common ancestry]
+* link:error-no-new-changes.html[no new changes]
+* link:error-non-fast-forward.html[non-fast forward]
+* link:error-not-a-gerrit-administrator.html[Not a Gerrit administrator]
+* link:error-not-permitted-to-create.html[Not permitted to create ...]
+* link:error-not-signed-off-by.html[not Signed-off-by author/committer/uploader in commit message footer]
+* link:error-not-valid-ref.html[not valid ref]
+* link:error-change-upload-blocked.html[One or more refs/for/ names blocks change upload]
+* link:error-permission-denied.html[Permission denied (publickey)]
+* link:error-prohibited-by-gerrit.html[prohibited by Gerrit]
+* link:error-project-not-found.html[Project not found: ...]
+* link:error-same-change-id-in-multiple-changes.html[same Change-Id in multiple changes]
+* link:error-too-many-commits.html[too many commits]
+* link:error-upload-denied.html[Upload denied for project \'...']
+* link:error-push-refschanges-not-allowed.html[upload to refs/changes not allowed]
+* link:error-not-allowed-to-upload-merges.html[you are not allowed to upload merges]
+
+
+== General Hints
+
+* link:error-push-fails-due-to-commit-message.html[push fails due to commit message]
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

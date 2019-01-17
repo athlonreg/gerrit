@@ -1,0 +1,268 @@
+= Gerrit Code Review - Standalone Daemon Installation Guide
+
+[[prerequisites]]
+== Prerequisites
+
+To run the Gerrit service, the following requirement must be met on the host:
+
+* JRE, version 1.8 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
++
+Gerrit is not yet compatible with Java 9 or newer at this time.
+
+By default, Gerrit uses link:note-db.html[NoteDB] as the storage backend. (If
+desired, you can _optionally_ use an external database such as MySQL or
+PostgreSQL.)
+
+[[cryptography]]
+== Configure Java for Strong Cryptography
+
+Support for extra strength cryptographic ciphers: _AES128CTR_, _AES256CTR_,
+_ARCFOUR256_, and _ARCFOUR128_ can be enabled by downloading the _Java
+Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files_
+from Oracle and installing them into your JRE.
+
+[NOTE]
+Installing JCE extensions is optional and export restrictions may apply.
+
+. Download the unlimited strength JCE policy files.
++
+- link:http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html[JDK7 JCE policy files]
+- link:http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html[JDK8 JCE policy files]
+. Uncompress and extract the downloaded file.
++
+The downloaded file  contains the following files:
++
+[cols="2"]
+|===
+|README.txt
+|Information about JCE and installation guide
+
+|local_policy.jar
+|Unlimited strength local policy file
+
+|US_export_policy.jar
+|Unlimited strength US export policy file
+|===
+. Install the unlimited strength policy JAR files by following instructions
+found in `README.txt`.
+
+[[download]]
+== Download Gerrit
+
+Current and past binary releases of Gerrit can be obtained from
+the link:https://www.gerritcodereview.com/download/index.html[
+Gerrit Releases site].
+
+Download any current `*.war` package. The war will be referred to as
+`gerrit.war` from this point forward, so you may find it easier to
+rename the downloaded file.
+
+If you would prefer to build Gerrit directly from source, review
+the notes under link:dev-readme.html[developer setup].
+
+include::database-setup.txt[]
+
+[[init]]
+== Initialize the Site
+
+Gerrit stores configuration files, the server's SSH keys, and the
+managed Git repositories under a local directory, typically referred
+to as `'$site_path'`.  If the embedded H2 database is being used,
+its data files will also be stored under this directory.
+
+You also have to decide where to store your server side git repositories. This
+can either be a relative path under `'$site_path'` or an absolute path
+anywhere on your server system. You have to choose a place before commencing
+your init phase.
+
+Initialize a new site directory by running the init command, passing
+the path of the site directory to be created as an argument to the
+'-d' option.  Its recommended that Gerrit Code Review be given its
+own user account on the host system:
+
+----
+  sudo adduser gerrit
+  sudo su gerrit
+
+  java -jar gerrit.war init -d /path/to/your/gerrit_application_directory
+----
+
+[NOTE]
+If you choose a location where your new user doesn't
+have any privileges, you may have to manually create the directory first and
+then give ownership of that location to the `'gerrit'` user.
+
+If run from an interactive terminal, the init command will prompt through a
+series of configuration questions, including gathering information
+about the database created above.  If the terminal is not interactive,
+running the init command will choose some reasonable default selections,
+and will use the embedded H2 database. Once the init phase is complete,
+you can review your settings in the file `'$site_path/etc/gerrit.config'`.
+
+When running the init command, additional JARs might be downloaded to
+support optional selected functionality.  If a download fails a URL will
+be displayed and init will wait for the user to manually download the JAR
+and store it in the target location.
+
+When the init phase is complete, the daemon will be automatically started
+in the background and your web browser will open to the site:
+
+----
+  Initialized /home/gerrit/review_site
+  Executing /home/gerrit/review_site/bin/gerrit.sh start
+  Starting Gerrit Code Review: OK
+  Waiting for server to start ... OK
+  Opening browser ...
+----
+
+When the browser opens, sign in to Gerrit through the web interface.
+The first user to sign-in and register an account will be
+automatically placed into the fully privileged Administrators group,
+permitting server management over the web and over SSH.  Subsequent
+users will be automatically registered as unprivileged users.
+
+
+== Installation Complete
+
+Your base Gerrit server is now installed and running.  You're now ready to
+either set up more projects or start working with the projects you've already
+imported.
+
+
+[[project_setup]]
+== Project Setup
+
+See link:project-configuration.html[Project Configuration] for further details on
+how to register a new project with Gerrit.  This step is necessary
+if existing Git repositories were not imported during 'init'.
+
+
+[[rc_d]]
+== Start/Stop Daemon
+
+To control the Gerrit Code Review daemon that is running in the
+background, use the rc.d style start script created by 'init':
+
+----
+  review_site/bin/gerrit.sh start
+  review_site/bin/gerrit.sh stop
+  review_site/bin/gerrit.sh restart
+----
+
+('Optional') Configure the daemon to automatically start and stop
+with the operating system.
+
+Uncomment the following 3 lines in the `'$site_path/bin/gerrit.sh'`
+script:
+
+----
+ chkconfig: 3 99 99
+ description: Gerrit Code Review
+ processname: gerrit
+----
+
+Then link the `gerrit.sh` script into `rc3.d`:
+
+----
+  sudo ln -snf `pwd`/review_site/bin/gerrit.sh /etc/init.d/gerrit
+  sudo ln -snf /etc/init.d/gerrit /etc/rc3.d/S90gerrit
+----
+
+('Optional') To enable autocompletion of the gerrit.sh commands, install
+autocompletion from the `/contrib/bash_completion` script.  Refer to the
+script's header comments for installation instructions.
+
+To install Gerrit into an existing servlet container instead of using
+the embedded Jetty server, see
+link:install-j2ee.html[J2EE installation].
+
+[[installation_on_windows]]
+== Installation on Windows
+
+The `ssh-keygen` command must be available during the init phase to
+generate SSH host keys. If you have
+link:https://git-for-windows.github.io/[Git for Windows] installed,
+start Command Prompt and temporary add directory with ssh-keygen to the
+PATH environment variable just before running init command:
+
+====
+  PATH=%PATH%;c:\Program Files\Git\usr\bin
+====
+
+Please note that the path in the above example must not be
+double-quoted.
+
+To run the daemon after site initialization execute:
+
+====
+  cd C:\MY\GERRIT\SITE
+  java.exe -jar bin\gerrit.war daemon --console-log
+====
+
+To stop the daemon press Ctrl+C.
+
+=== Install the daemon as Windows Service
+
+To install Gerrit as Windows Service use the
+link:http://commons.apache.org/proper/commons-daemon/procrun.html[Apache
+Commons Daemon Procrun].
+
+Sample install command:
+
+====
+  prunsrv.exe //IS//Gerrit --DisplayName="Gerrit Code Review" --Startup=auto ^
+        --Jvm="C:\Program Files\Java\jre1.8.0_65\bin\server\jvm.dll" ^
+        --Classpath=C:\MY\GERRIT\SITE\bin\gerrit.war ^
+        --LogPath=C:\MY\GERRIT\SITE\logs ^
+        --StartPath=C:\MY\GERRIT\SITE ^
+        --StartMode=jvm --StopMode=jvm ^
+        --StartClass=com.google.gerrit.launcher.GerritLauncher --StartMethod=daemonStart ^
+        --StopClass=com.google.gerrit.launcher.GerritLauncher --StopMethod=daemonStop ^
+        ++DependsOn=postgresql-x64-9.4
+====
+
+[[customize]]
+== Site Customization
+
+Gerrit Code Review supports some site-specific customization options.
+For more information, see the related topics in this manual:
+
+* link:config-reverseproxy.html[Reverse Proxy]
+* link:config-sso.html[Single Sign-On Systems]
+* link:config-themes.html[Themes]
+* link:config-gitweb.html[Gitweb Integration]
+* link:config-gerrit.html[Other System Settings]
+* link:config-auto-site-initialization.html[Automatic Site Initialization on Startup]
+
+
+[[anonymous_access]]
+== Anonymous Access
+
+Exporting the Git repository directory
+(link:config-gerrit.html#gerrit.basePath[gerrit.basePath]) over the
+anonymous, unencrypted git:// protocol is more efficient than
+Gerrit's internal SSH daemon.  See the `git-daemon` documentation
+for details on how to configure this if anonymous access is desired.
+
+* http://www.kernel.org/pub/software/scm/git/docs/git-daemon.html[man git-daemon]
+
+
+[[plugins]]
+== Plugins
+
+Place Gerrit plugins in the review_site/plugins directory to have them loaded on Gerrit startup.
+
+
+== External Documentation Links
+
+* http://www.postgresql.org/docs/[PostgreSQL Documentation]
+* http://dev.mysql.com/doc/[MySQL Documentation]
+* http://www.kernel.org/pub/software/scm/git/docs/git-daemon.html[git-daemon]
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

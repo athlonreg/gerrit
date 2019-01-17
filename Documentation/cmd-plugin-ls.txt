@@ -1,0 +1,47 @@
+= plugin ls
+
+== NAME
+plugin ls - List the installed plugins.
+
+== SYNOPSIS
+[verse]
+--
+_ssh_ -p <port> <host> _gerrit plugin ls_
+  [--all | -a]
+  [--format {text | json | json_compact}]
+--
+
+== DESCRIPTION
+List the installed plugins and show their version and status.
+
+== ACCESS
+* The caller must be a member of a group that is granted the
+  link:access-control.html#capability_viewPlugins[View Plugins]
+  capability or the link:access-control.html#capability_administrateServer[
+  Administrate Server] capability.
+* link:config-gerrit.html#plugins.allowRemoteAdmin[plugins.allowRemoteAdmin]
+  must be enabled in `$site_path/etc/gerrit.config`.
+
+== SCRIPTING
+This command is intended to be used in scripts.
+
+== OPTIONS
+--all::
+-a::
+	List all plugins, including disabled plugins.
+
+--format::
+	What output format to display the results in.
++
+--
+`text`:: Simple text based format.
+`json`:: Map of JSON objects describing each project.
+`json_compact`:: Minimized JSON output.
+--
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

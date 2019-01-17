@@ -1,0 +1,24 @@
+# The project view file (.bazelproject) is used to import Gerrit Bazel packages into the IDE.
+#
+# See: https://ij.bazel.io/docs/project-views.html
+
+directories:
+  .
+  -bin
+  -eclipse-out
+  -contrib
+  -gerrit-package-plugins
+  -logs
+  -./.metadata
+  -./.settings
+  -./.apt_generated
+
+targets:
+  //...:all
+
+java_language_level: 8
+
+workspace_type: java
+
+build_flags:
+  --javacopt=-g
