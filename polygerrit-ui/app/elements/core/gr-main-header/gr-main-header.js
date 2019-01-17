@@ -18,19 +18,19 @@
   'use strict';
 
   const DEFAULT_LINKS = [{
-    title: 'Changes',
+    title: '修改',
     links: [
       {
         url: '/q/status:open',
-        name: 'Open',
+        name: '打开',
       },
       {
         url: '/q/status:merged',
-        name: 'Merged',
+        name: '合并',
       },
       {
         url: '/q/status:abandoned',
-        name: 'Abandoned',
+        name: '丢弃',
       },
     ],
   }];
@@ -187,7 +187,7 @@
       });
       if (userLinks && userLinks.length > 0) {
         links.push({
-          title: 'Your',
+          title: '你的',
           links: userLinks.slice(),
         });
       }
@@ -200,7 +200,7 @@
         });
       }
       links.push({
-        title: 'Browse',
+        title: '浏览',
         links: adminLinks.slice(),
       });
       const topMenuLinks = [];
