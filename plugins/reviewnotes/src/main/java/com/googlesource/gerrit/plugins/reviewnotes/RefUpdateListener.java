@@ -19,14 +19,12 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Config;
@@ -37,7 +35,6 @@ class RefUpdateListener implements GitReferenceUpdatedListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final CreateReviewNotes.Factory reviewNotesFactory;
-  private final SchemaFactory<ReviewDb> schema;
   private final GitRepositoryManager repoManager;
   private final WorkQueue workQueue;
   private final RetryHelper retryHelper;
@@ -46,13 +43,11 @@ class RefUpdateListener implements GitReferenceUpdatedListener {
   @Inject
   RefUpdateListener(
       CreateReviewNotes.Factory reviewNotesFactory,
-      SchemaFactory<ReviewDb> schema,
       GitRepositoryManager repoManager,
       WorkQueue workQueue,
       RetryHelper retryHelper,
       @GerritServerConfig Config config) {
     this.reviewNotesFactory = reviewNotesFactory;
-    this.schema = schema;
     this.repoManager = repoManager;
     this.workQueue = workQueue;
     this.retryHelper = retryHelper;
@@ -104,9 +99,8 @@ class RefUpdateListener implements GitReferenceUpdatedListener {
       retryHelper.execute(
           updateFactory -> {
             Project.NameKey projectName = new Project.NameKey(e.getProjectName());
-            try (Repository git = repoManager.openRepository(projectName);
-                ReviewDb reviewDb = schema.open()) {
-              CreateReviewNotes crn = reviewNotesFactory.create(reviewDb, projectName, git);
+            try (Repository git = repoManager.openRepository(projectName)) {
+              CreateReviewNotes crn = reviewNotesFactory.create(projectName, git);
               crn.createNotes(
                   e.getRefName(),
                   ObjectId.fromString(e.getOldObjectId()),

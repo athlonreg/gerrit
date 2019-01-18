@@ -14,14 +14,9 @@
 
 package com.googlesource.gerrit.plugins.replication;
 
-import static com.googlesource.gerrit.plugins.replication.AdminApiFactory.isGerrit;
-import static com.googlesource.gerrit.plugins.replication.AdminApiFactory.isSSH;
-
-import com.google.common.base.Strings;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Project;
@@ -30,11 +25,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.PushResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig.FilterType;
-import java.net.URISyntaxException;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +34,6 @@ import org.slf4j.LoggerFactory;
 public class ReplicationQueue
     implements LifecycleListener,
         GitReferenceUpdatedListener,
-        NewProjectCreatedListener,
         ProjectDeletedListener,
         HeadUpdatedListener {
   static final String REPLICATION_LOG_NAME = "replication_log";
@@ -51,22 +41,9 @@ public class ReplicationQueue
 
   private final ReplicationStateListener stateLog;
 
-  static String replaceName(String in, String name, boolean keyIsOptional) {
-    String key = "${name}";
-    int n = in.indexOf(key);
-    if (0 <= n) {
-      return in.substring(0, n) + name + in.substring(n + key.length());
-    }
-    if (keyIsOptional) {
-      return in;
-    }
-    return null;
-  }
-
   private final WorkQueue workQueue;
   private final DynamicItem<EventDispatcher> dispatcher;
   private final ReplicationConfig config;
-  private final AdminApiFactory adminApiFactory;
   private final ReplicationState.Factory replicationStateFactory;
   private final EventsStorage eventsStorage;
   private volatile boolean running;
@@ -74,7 +51,6 @@ public class ReplicationQueue
   @Inject
   ReplicationQueue(
       WorkQueue wq,
-      AdminApiFactory aaf,
       ReplicationConfig rc,
       DynamicItem<EventDispatcher> dis,
       ReplicationStateListener sl,
@@ -84,18 +60,15 @@ public class ReplicationQueue
     dispatcher = dis;
     config = rc;
     stateLog = sl;
-    adminApiFactory = aaf;
     replicationStateFactory = rsf;
     eventsStorage = es;
   }
 
   @Override
   public void start() {
-    if (!running) {
-      config.startup(workQueue);
-      running = true;
-      firePendingEvents();
-    }
+    config.startup(workQueue);
+    running = true;
+    firePendingEvents();
   }
 
   @Override
@@ -161,130 +134,22 @@ public class ReplicationQueue
   }
 
   @Override
-  public void onNewProjectCreated(NewProjectCreatedListener.Event event) {
-    Project.NameKey projectName = new Project.NameKey(event.getProjectName());
-    for (URIish uri : getURIs(projectName, FilterType.PROJECT_CREATION)) {
-      createProject(uri, projectName, event.getHeadName());
-    }
-  }
-
-  @Override
   public void onProjectDeleted(ProjectDeletedListener.Event event) {
-    Project.NameKey projectName = new Project.NameKey(event.getProjectName());
-    for (URIish uri : getURIs(projectName, FilterType.PROJECT_DELETION)) {
-      deleteProject(uri, projectName);
-    }
+    Project.NameKey p = new Project.NameKey(event.getProjectName());
+    config
+        .getURIs(Optional.empty(), p, FilterType.PROJECT_DELETION)
+        .entries()
+        .stream()
+        .forEach(e -> e.getKey().scheduleDeleteProject(e.getValue(), p));
   }
 
   @Override
   public void onHeadUpdated(HeadUpdatedListener.Event event) {
-    Project.NameKey project = new Project.NameKey(event.getProjectName());
-    for (URIish uri : getURIs(project, FilterType.ALL)) {
-      updateHead(uri, project, event.getNewHeadName());
-    }
-  }
-
-  private Set<URIish> getURIs(Project.NameKey projectName, FilterType filterType) {
-    if (config.getDestinations(filterType).isEmpty()) {
-      return Collections.emptySet();
-    }
-    if (!running) {
-      repLog.error("Replication plugin did not finish startup before event");
-      return Collections.emptySet();
-    }
-
-    Set<URIish> uris = new HashSet<>();
-    for (Destination config : this.config.getDestinations(filterType)) {
-      if (!config.wouldPushProject(projectName)) {
-        continue;
-      }
-
-      boolean adminURLUsed = false;
-
-      for (String url : config.getAdminUrls()) {
-        if (Strings.isNullOrEmpty(url)) {
-          continue;
-        }
-
-        URIish uri;
-        try {
-          uri = new URIish(url);
-        } catch (URISyntaxException e) {
-          repLog.warn("adminURL '{}' is invalid: {}", url, e.getMessage());
-          continue;
-        }
-
-        if (!isGerrit(uri)) {
-          String path =
-              replaceName(uri.getPath(), projectName.get(), config.isSingleProjectMatch());
-          if (path == null) {
-            repLog.warn("adminURL {} does not contain ${name}", uri);
-            continue;
-          }
-
-          uri = uri.setPath(path);
-          if (!isSSH(uri)) {
-            repLog.warn("adminURL '{}' is invalid: only SSH is supported", uri);
-            continue;
-          }
-        }
-        uris.add(uri);
-        adminURLUsed = true;
-      }
-
-      if (!adminURLUsed) {
-        for (URIish uri : config.getURIs(projectName, "*")) {
-          uris.add(uri);
-        }
-      }
-    }
-    return uris;
-  }
-
-  public boolean createProject(Project.NameKey project, String head) {
-    boolean success = true;
-    for (URIish uri : getURIs(project, FilterType.PROJECT_CREATION)) {
-      success &= createProject(uri, project, head);
-    }
-    return success;
-  }
-
-  private boolean createProject(URIish replicateURI, Project.NameKey projectName, String head) {
-    Optional<AdminApi> adminApi = adminApiFactory.create(replicateURI);
-    if (adminApi.isPresent()) {
-      adminApi.get().createProject(projectName, head);
-      return true;
-    }
-
-    warnCannotPerform("create new project", replicateURI);
-    return false;
-  }
-
-  private void deleteProject(URIish replicateURI, Project.NameKey projectName) {
-    Optional<AdminApi> adminApi = adminApiFactory.create(replicateURI);
-    if (adminApi.isPresent()) {
-      adminApi.get().deleteProject(projectName);
-      return;
-    }
-
-    warnCannotPerform("delete project", replicateURI);
-  }
-
-  private void updateHead(URIish replicateURI, Project.NameKey projectName, String newHead) {
-    Optional<AdminApi> adminApi = adminApiFactory.create(replicateURI);
-    if (adminApi.isPresent()) {
-      adminApi.get().updateHead(projectName, newHead);
-      return;
-    }
-
-    warnCannotPerform("update HEAD of project", replicateURI);
-  }
-
-  private void warnCannotPerform(String op, URIish uri) {
-    repLog.warn(
-        "Cannot {} on remote site {}."
-            + "Only local paths and SSH URLs are supported for this operation",
-        op,
-        uri);
+    Project.NameKey p = new Project.NameKey(event.getProjectName());
+    config
+        .getURIs(Optional.empty(), p, FilterType.ALL)
+        .entries()
+        .stream()
+        .forEach(e -> e.getKey().scheduleUpdateHead(e.getValue(), p, event.getNewHeadName()));
   }
 }
