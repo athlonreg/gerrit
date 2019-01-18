@@ -255,7 +255,7 @@
     },
 
     _computeAddLabel(ccsOnly) {
-      return ccsOnly ? 'Add CC' : 'Add reviewer';
+      return ccsOnly ? '添加抄送' : '添加审查者';
     },
   });
 })();
