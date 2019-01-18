@@ -889,7 +889,7 @@
 
     _computeReplyButtonLabel(changeRecord, canStartReview) {
       if (canStartReview) {
-        return 'Start review';
+        return '开始审查';
       }
 
       const drafts = (changeRecord && changeRecord.base) || {};
