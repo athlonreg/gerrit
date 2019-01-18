@@ -54,7 +54,7 @@ limitations under the License.
         </thead>
         <tbody>
           <tr>
-            <td>数字</td>
+            <td>评审序号</td>
             <td class="checkboxContainer"
                 on-tap="_handleCheckboxContainerTap">
               <input
@@ -64,8 +64,96 @@ limitations under the License.
                   checked$="[[showNumber]]">
             </td>
           </tr>
+          <tr>
+            <td>评审主题</td>
+            <td class="checkboxContainer"
+                on-tap="_handleCheckboxContainerTap">
+              <input
+                  type="checkbox"
+                  name="subject"
+                  on-tap="_handleTargetTap"
+                  checked$="true">
+            </td>
+          </tr>
+          <tr>
+            <td>评审状态</td>
+            <td class="checkboxContainer"
+                on-tap="_handleCheckboxContainerTap">
+              <input
+                  type="checkbox"
+                  name="status"
+                  on-tap="_handleTargetTap"
+                  checked$="true">
+            </td>
+          </tr>
+          <tr>
+            <td>提交人员</td>
+            <td class="checkboxContainer"
+                on-tap="_handleCheckboxContainerTap">
+              <input
+                  type="checkbox"
+                  name="owner"
+                  on-tap="_handleTargetTap"
+                  checked$="true">
+            </td>
+          </tr>
+          <tr>
+            <td>委托人员</td>
+            <td class="checkboxContainer"
+                on-tap="_handleCheckboxContainerTap">
+              <input
+                  type="checkbox"
+                  name="assignee"
+                  on-tap="_handleTargetTap"
+                  checked$="true">
+            </td>
+          </tr>
+          <tr>
+            <td>所属仓库</td>
+            <td class="checkboxContainer"
+                on-tap="_handleCheckboxContainerTap">
+              <input
+                  type="checkbox"
+                  name="repo"
+                  on-tap="_handleTargetTap"
+                  checked$="true">
+            </td>
+          </tr>
+          <tr>
+            <td>所在分支</td>
+            <td class="checkboxContainer"
+                on-tap="_handleCheckboxContainerTap">
+              <input
+                  type="checkbox"
+                  name="branch"
+                  on-tap="_handleTargetTap"
+                  checked$="true">
+            </td>
+          </tr>
+          <tr>
+            <td>更新时间</td>
+            <td class="checkboxContainer"
+                on-tap="_handleCheckboxContainerTap">
+              <input
+                  type="checkbox"
+                  name="updated"
+                  on-tap="_handleTargetTap"
+                  checked$="true">
+            </td>
+          </tr>
+          <tr>
+            <td>提交大小</td>
+            <td class="checkboxContainer"
+                on-tap="_handleCheckboxContainerTap">
+              <input
+                  type="checkbox"
+                  name="size"
+                  on-tap="_handleTargetTap"
+                  checked$="true">
+            </td>
+          </tr>
           <template is="dom-repeat" items="[[columnNames]]">
-            <tr>
+            <!-- <tr>
               <td>[[item]]</td>
               <td class="checkboxContainer"
                   on-tap="_handleCheckboxContainerTap">
@@ -75,7 +163,7 @@ limitations under the License.
                     on-tap="_handleTargetTap"
                     checked$="[[!isColumnHidden(item, displayedColumns)]]">
               </td>
-            </tr>
+            </tr> -->
           </template>
         </tbody>
       </table>

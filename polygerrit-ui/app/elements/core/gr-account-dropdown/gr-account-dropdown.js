@@ -65,13 +65,13 @@
     },
 
     _getLinks(switchAccountUrl, path) {
-      const links = [{name: 'Settings', url: '/settings/'}];
+      const links = [{name: '设置', url: '/settings/'}];
       if (switchAccountUrl) {
         const replacements = {path};
         const url = this._interpolateUrl(switchAccountUrl, replacements);
         links.push({name: 'Switch account', url, external: true});
       }
-      links.push({name: 'Sign out', url: '/logout'});
+      links.push({name: '注销', url: '/logout'});
       return links;
     },
 

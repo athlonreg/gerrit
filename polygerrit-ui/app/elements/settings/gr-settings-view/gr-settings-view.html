@@ -193,19 +193,19 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Diff view</span>
+            <span class="title">Diff 查看</span>
             <span class="value">
               <gr-select
                   bind-value="{{_localPrefs.diff_view}}">
                 <select>
-                  <option value="SIDE_BY_SIDE">Side by side</option>
-                  <option value="UNIFIED_DIFF">Unified diff</option>
+                  <option value="SIDE_BY_SIDE">并列对比</option>
+                  <option value="UNIFIED_DIFF">单列对比</option>
                 </select>
               </gr-select>
             </span>
           </section>
           <section>
-            <span class="title">Show size bars in file list</span>
+            <span class="title">在文件列表中显示大小栏</span>
             <span class="value">
               <input
                   id="showSizeBarsInFileList"
@@ -215,7 +215,7 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Publish comments on push</span>
+            <span class="title">发布推送评论</span>
             <span class="value">
               <input
                   id="publishCommentsOnPush"
@@ -225,7 +225,7 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Set new changes to "work in progress" by default</span>
+            <span class="title">默认情况下，将新更改设置为"work in progress"</span>
             <span class="value">
               <input
                   id="workInProgressByDefault"
@@ -236,7 +236,7 @@ limitations under the License.
           </section>
           <section>
             <span class="title">
-              Insert Signed-off-by Footer For Inline Edit Changes
+              为内联编辑更改插入底部签名
             </span>
             <span class="value">
               <input
@@ -254,21 +254,21 @@ limitations under the License.
         <h2
             id="DiffPreferences"
             class$="[[_computeHeaderClass(_diffPrefsChanged)]]">
-          Diff Preferences
+          Diff 偏好设置
         </h2>
         <fieldset id="diffPreferences">
           <section>
-            <span class="title">Context</span>
+            <span class="title">上下文</span>
             <span class="value">
               <gr-select bind-value="{{_diffPrefs.context}}">
                 <select>
-                  <option value="3">3 lines</option>
-                  <option value="10">10 lines</option>
-                  <option value="25">25 lines</option>
-                  <option value="50">50 lines</option>
-                  <option value="75">75 lines</option>
-                  <option value="100">100 lines</option>
-                  <option value="-1">Whole file</option>
+                  <option value="3">3 行</option>
+                  <option value="10">10 行</option>
+                  <option value="25">25 行</option>
+                  <option value="50">50 行</option>
+                  <option value="75">75 行</option>
+                  <option value="100">100 行</option>
+                  <option value="-1">Whole 行</option>
                 </select>
               </gr-select>
             </span>
@@ -327,7 +327,7 @@ limitations under the License.
             </span>
           </section>
           <section>
-            <span class="title">Show trailing whitespace</span>
+            <span class="title">显示尾空格</span>
             <span class="value">
               <input
                   id="showTrailingWhitespace"
@@ -368,7 +368,7 @@ limitations under the License.
         <h2
             id="EditPreferences"
             class$="[[_computeHeaderClass(_editPrefsChanged)]]">
-          编辑偏好设置
+          Edit 偏好设置
         </h2>
         <fieldset id="editPreferences">
           <gr-edit-preferences
@@ -394,7 +394,7 @@ limitations under the License.
         </fieldset>
         <h2 id="ChangeTableColumns"
             class$="[[_computeHeaderClass(_changeTableChanged)]]">
-          修改表格列数
+          修改选项卡列表
         </h2>
         <fieldset id="changeTableColumns">
           <gr-change-table-editor
@@ -496,20 +496,17 @@ limitations under the License.
         <h2 id="MailFilters">邮件 Filters</h2>
         <fieldset class="filters">
           <p>
-            Gerrit emails include metadata about the change to support
-            writing mail filters.
+            Gerrit 电子邮件支持更改元数据用于邮件过滤器。
           </p>
           <p>
-            Here are some example Gmail queries that can be used for filters or
-            for searching through archived messages. View the
+            下面是一些Gmail查询示例，用于过滤器或搜索存档的消息，完整的说明请查看
             <a href$="[[_getFilterDocsLink(_docsBaseUrl)]]"
                 target="_blank"
-                rel="nofollow">Gerrit documentation</a>
-            for the complete set of footers.
+                rel="nofollow">文档</a>
           </p>
           <table>
             <tbody>
-              <tr><th>Name</th><th>Query</th></tr>
+              <tr><th>名称</th><th>操作</th></tr>
               <tr>
                 <td>Changes requesting my review</td>
                 <td>
