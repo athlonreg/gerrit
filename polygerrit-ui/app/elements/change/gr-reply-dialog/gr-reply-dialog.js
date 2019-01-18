@@ -38,23 +38,23 @@
   };
 
   const ButtonLabels = {
-    START_REVIEW: 'Start review',
+    START_REVIEW: '开始审查',
     SEND: 'Send',
   };
 
   const ButtonTooltips = {
-    SAVE: 'Save reply but do not send notification',
-    START_REVIEW: 'Mark as ready for review and send reply',
-    SEND: 'Send reply',
+    SAVE: '保存回复但不发送提醒',
+    START_REVIEW: '标记为可以被审查然后发送回复',
+    SEND: '发送回复',
   };
 
   // TODO(logan): Remove once the fix for issue 6841 is stable on
   // googlesource.com.
-  const START_REVIEW_MESSAGE = 'This change is ready for review.';
+  const START_REVIEW_MESSAGE = '此提交可以被审查';
 
-  const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
+  const EMPTY_REPLY_MESSAGE = '回复内容不可为空';
 
-  const SEND_REPLY_TIMING_LABEL = 'SendReply';
+  const SEND_REPLY_TIMING_LABEL = '发送回复';
 
   Polymer({
     is: 'gr-reply-dialog',
@@ -624,8 +624,8 @@
 
     _computeMessagePlaceholder(canBeStarted) {
       return canBeStarted ?
-        'Add a note for your reviewers...' :
-        'Say something nice...';
+        '填写你的审查记录...' :
+        '说点什么好...';
     },
 
     _changeUpdated(changeRecord, owner, serverConfig) {
