@@ -240,7 +240,7 @@ limitations under the License.
           <span class="draftLabel">DRAFT</span>
           <gr-tooltip-content class="draftTooltip"
               has-tooltip
-              title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'A' key."
+              title="草稿只对自己可见，要发布此草稿，请点击 回复 或者 开始审查 按钮。"
               max-width="20em"
               show-icon></gr-tooltip-content>
         </div>
@@ -253,7 +253,7 @@ limitations under the License.
             secondary
             class$="action delete [[_computeDeleteButtonClass(_isAdmin, draft)]]"
             on-tap="_handleCommentDelete">
-          (Delete)
+          （删除）
         </gr-button>
         <a class="date" href$="[[_computeLinkToComment(comment)]]" on-tap="_handleLinkTap">
           <gr-date-formatter
