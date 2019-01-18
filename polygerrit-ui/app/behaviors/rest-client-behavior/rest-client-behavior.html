@@ -136,16 +136,16 @@ limitations under the License.
     changeStatuses(change, opt_options) {
       const states = [];
       if (change.status === this.ChangeStatus.MERGED) {
-        states.push('Merged');
+        states.push('已合并');
       } else if (change.status === this.ChangeStatus.ABANDONED) {
-        states.push('Abandoned');
+        states.push('已丢弃');
       } else if (change.mergeable === false ||
           (opt_options && opt_options.mergeable === false)) {
         // 'mergeable' prop may not always exist (@see Issue 6819)
-        states.push('Merge Conflict');
+        states.push('合并冲突');
       }
       if (change.work_in_progress) { states.push('WIP'); }
-      if (change.is_private) { states.push('Private'); }
+      if (change.is_private) { states.push('私有'); }
 
       // If there are any pre-defined statuses, only return those. Otherwise,
       // will determine the derived status.
@@ -153,7 +153,7 @@ limitations under the License.
 
       // If no missing requirements, either active or ready to submit.
       if (change.submittable && opt_options.submitEnabled) {
-        states.push('Ready to submit');
+        states.push('准备提交');
       } else {
         // Otherwise it is active.
         states.push('Active');
