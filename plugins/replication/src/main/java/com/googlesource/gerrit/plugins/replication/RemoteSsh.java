@@ -33,7 +33,7 @@ public class RemoteSsh implements AdminApi {
   }
 
   @Override
-  public boolean createProject(Project.NameKey project, String head) {
+  public void createProject(Project.NameKey project, String head) {
     String quotedPath = QuotedString.BOURNE.quote(uri.getPath());
     String cmd = "mkdir -p " + quotedPath + " && cd " + quotedPath + " && git init --bare";
     if (head != null) {
@@ -54,9 +54,7 @@ public class RemoteSsh implements AdminApi {
           cmd,
           errStream,
           e);
-      return false;
     }
-    return true;
   }
 
   @Override

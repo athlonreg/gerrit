@@ -17,7 +17,7 @@ package com.googlesource.gerrit.plugins.replication;
 import com.google.gerrit.reviewdb.client.Project;
 
 public interface AdminApi {
-  public boolean createProject(Project.NameKey project, String head);
+  public void createProject(Project.NameKey project, String head);
 
   public void deleteProject(Project.NameKey project);
 

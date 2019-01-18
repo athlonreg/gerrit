@@ -18,18 +18,18 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.UrlFormatter;
+import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -62,7 +62,7 @@ class CreateReviewNotes {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   interface Factory {
-    CreateReviewNotes create(Project.NameKey project, Repository git);
+    CreateReviewNotes create(ReviewDb reviewDb, Project.NameKey project, Repository git);
   }
 
   private static final String REFS_NOTES_REVIEW = "refs/notes/review";
@@ -76,7 +76,7 @@ class CreateReviewNotes {
   private final NotesBranchUtil.Factory notesBranchUtilFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final DynamicItem<UrlFormatter> urlFormatter;
-  private final PatchSetUtil psUtil;
+  private final ReviewDb reviewDb;
   private final Project.NameKey project;
   private final Repository git;
 
@@ -95,7 +95,7 @@ class CreateReviewNotes {
       NotesBranchUtil.Factory notesBranchUtilFactory,
       Provider<InternalChangeQuery> queryProvider,
       DynamicItem<UrlFormatter> urlFormatter,
-      PatchSetUtil psUtil,
+      @Assisted ReviewDb reviewDb,
       @Assisted Project.NameKey project,
       @Assisted Repository git) {
     this.gerritServerIdent = gerritIdent;
@@ -116,7 +116,7 @@ class CreateReviewNotes {
     this.notesBranchUtilFactory = notesBranchUtilFactory;
     this.queryProvider = queryProvider;
     this.urlFormatter = urlFormatter;
-    this.psUtil = psUtil;
+    this.reviewDb = reviewDb;
     this.project = project;
     this.git = git;
   }
@@ -149,7 +149,7 @@ class CreateReviewNotes {
       for (RevCommit c : rw) {
         PatchSet ps = loadPatchSet(c, branch);
         if (ps != null) {
-          ChangeNotes notes = notesFactory.create(project, ps.getId().getParentKey());
+          ChangeNotes notes = notesFactory.create(reviewDb, project, ps.getId().getParentKey());
           ObjectId content = createNoteContent(notes, ps);
           if (content != null) {
             monitor.update(1);
@@ -173,7 +173,7 @@ class CreateReviewNotes {
 
       for (ChangeNotes cn : notes) {
         monitor.update(1);
-        PatchSet ps = psUtil.current(cn);
+        PatchSet ps = reviewDb.patchSets().get(cn.getChange().currentPatchSetId());
         ObjectId commitId = ObjectId.fromString(ps.getRevision().get());
         RevCommit commit = rw.parseCommit(commitId);
         getNotes().set(commitId, createNoteContent(cn, ps));
@@ -258,7 +258,7 @@ class CreateReviewNotes {
     // commit time so we will be able to skip this normalization step.
     Change change = notes.getChange();
     PatchSetApproval submit = null;
-    for (PatchSetApproval a : approvalsUtil.byPatchSet(notes, ps.getId(), null, null)) {
+    for (PatchSetApproval a : approvalsUtil.byPatchSet(reviewDb, notes, ps.getId(), null, null)) {
       if (a.getValue() == 0) {
         // Ignore 0 values.
       } else if (a.isLegacySubmit()) {

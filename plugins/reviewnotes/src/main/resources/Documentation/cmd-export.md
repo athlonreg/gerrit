@@ -19,7 +19,8 @@ branch detailing the previous submission information for
 each merged change.
 
 This task can take quite some time, but can run in the background
-concurrently to the server.
+concurrently to the server if the database is MySQL or PostgreSQL.
+If the database is H2, this task must be run by itself.
 
 ACCESS
 ------
