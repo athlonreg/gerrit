@@ -17,9 +17,9 @@
 (function() {
   'use strict';
 
-  const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
-  const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
-  const ERR_REVISION_ACTIONS = 'Couldn’t load revision actions.';
+  const ERR_BRANCH_EMPTY = '目标分支不可为空';
+  const ERR_COMMIT_EMPTY = '提交信息不可为空';
+  const ERR_REVISION_ACTIONS = '无法加载修订操作';
   /**
    * @enum {string}
    */
@@ -81,14 +81,14 @@
   };
 
   const ActionLoadingLabels = {
-    abandon: 'Abandoning...',
+    abandon: '正在丢弃...',
     cherrypick: 'Cherry-picking...',
-    delete: 'Deleting...',
-    move: 'Moving..',
-    rebase: 'Rebasing...',
-    restore: 'Restoring...',
-    revert: 'Reverting...',
-    submit: 'Submitting...',
+    delete: '正在删除...',
+    move: '正在移动..',
+    rebase: '正在合并...',
+    restore: '正在还原...',
+    revert: '正在回退...',
+    submit: '正在提交...',
   };
 
   const ActionType = {
@@ -103,7 +103,7 @@
     __type: 'change',
     enabled: true,
     key: 'review',
-    label: 'Quick approve',
+    label: '快速验证',
     method: 'POST',
   };
 
@@ -117,7 +117,7 @@
 
   const DOWNLOAD_ACTION = {
     enabled: true,
-    label: 'Download patch',
+    label: '下载补丁',
     title: 'Open download dialog',
     __key: 'download',
     __primary: false,
@@ -126,7 +126,7 @@
 
   const REBASE_EDIT = {
     enabled: true,
-    label: 'Rebase edit',
+    label: '合并修改/变基',
     title: 'Rebase change edit',
     __key: 'rebaseEdit',
     __primary: false,
@@ -136,7 +136,7 @@
 
   const PUBLISH_EDIT = {
     enabled: true,
-    label: 'Publish edit',
+    label: '发布编辑',
     title: 'Publish change edit',
     __key: 'publishEdit',
     __primary: false,
@@ -146,7 +146,7 @@
 
   const DELETE_EDIT = {
     enabled: true,
-    label: 'Delete edit',
+    label: '删除编辑',
     title: 'Delete change edit',
     __key: 'deleteEdit',
     __primary: false,
@@ -156,7 +156,7 @@
 
   const EDIT = {
     enabled: true,
-    label: 'Edit',
+    label: '编辑',
     title: 'Edit this change',
     __key: 'edit',
     __primary: false,
@@ -165,7 +165,7 @@
 
   const STOP_EDIT = {
     enabled: true,
-    label: 'Stop editing',
+    label: '停止编辑',
     title: 'Stop editing this change',
     __key: 'stopEdit',
     __primary: false,
