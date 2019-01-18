@@ -88,7 +88,7 @@ limitations under the License.
           id="openDialog"
           class="invisible dialog"
           disabled$="[[!_isValidPath(_path)]]"
-          confirm-label="Open"
+          confirm-label="打开"
           confirm-on-enter
           on-confirm="_handleOpenConfirm"
           on-cancel="_handleDialogCancel">
@@ -106,14 +106,14 @@ limitations under the License.
           id="deleteDialog"
           class="invisible dialog"
           disabled$="[[!_isValidPath(_path)]]"
-          confirm-label="Delete"
+          confirm-label="删除"
           confirm-on-enter
           on-confirm="_handleDeleteConfirm"
           on-cancel="_handleDialogCancel">
         <div class="header" slot="header">从仓库中删除一个文件</div>
         <div class="main" slot="main">
           <gr-autocomplete
-              placeholder="Enter an existing full file path."
+              placeholder="输入一个存在的文件的绝对路径"
               query="[[_query]]"
               text="{{_path}}"></gr-autocomplete>
         </div>
@@ -122,27 +122,27 @@ limitations under the License.
           id="renameDialog"
           class="invisible dialog"
           disabled$="[[!_computeRenameDisabled(_path, _newPath)]]"
-          confirm-label="Rename"
+          confirm-label="重命名"
           confirm-on-enter
           on-confirm="_handleRenameConfirm"
           on-cancel="_handleDialogCancel">
         <div class="header" slot="header">从仓库中重命名一个文件</div>
         <div class="main" slot="main">
           <gr-autocomplete
-              placeholder="Enter an existing full file path."
+              placeholder="输入一个存在的文件的绝对路径"
               query="[[_query]]"
               text="{{_path}}"></gr-autocomplete>
           <input
               class="newPathInput"
               is="iron-input"
               bind-value="{{_newPath}}"
-              placeholder="Enter the new path."/>
+              placeholder="输入新的路径"/>
         </div>
       </gr-dialog>
       <gr-dialog
           id="restoreDialog"
           class="invisible dialog"
-          confirm-label="Restore"
+          confirm-label="还原"
           confirm-on-enter
           on-confirm="_handleRestoreConfirm"
           on-cancel="_handleDialogCancel">
