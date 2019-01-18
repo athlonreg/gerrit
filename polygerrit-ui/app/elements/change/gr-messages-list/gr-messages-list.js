@@ -199,7 +199,7 @@
     },
 
     _computeExpandCollapseMessage(expanded) {
-      return expanded ? 'Collapse all' : 'Expand all';
+      return expanded ? '全部折叠' : '全部展开';
     },
 
     /**
