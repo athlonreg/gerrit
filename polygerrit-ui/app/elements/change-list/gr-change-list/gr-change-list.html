@@ -41,22 +41,36 @@ limitations under the License.
         <th class="leftPadding"></th>
         <th class="star" hidden$="[[!showStar]]" hidden></th>
         <th class="number" hidden$="[[!showNumber]]" hidden>#</th>
-        <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
+        <!-- <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
           <th class$="[[_lowerCase(item)]]"
               hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]">
-            <!-- [[item]] -->
-          <script language="javascript"type="text/javascript">
-            switch (item) {
-            case "Subject":
-                 document.write('<th class$="[[_lowerCase(item)]]" hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]">'+主题+"</th>");
-            break;
-            case "Status":
-                 document.write('<th class$="[[_lowerCase(item)]]" hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]">'+状态+"</th>");
-            break;
-            }
-          </script>
+            [[item]]
           </th>
-        </template>
+        </template> -->
+        <th class="subject style-scope gr-change-list">
+          主题
+        </th>
+        <th class="subject style-scope gr-change-list">
+          状态
+        </th>
+        <th class="subject style-scope gr-change-list">
+          所有者
+        </th>
+        <th class="subject style-scope gr-change-list">
+          委托者
+        </th>
+        <th class="subject style-scope gr-change-list">
+          仓库
+        </th>
+        <th class="subject style-scope gr-change-list">
+          分支
+        </th>
+        <th class="subject style-scope gr-change-list">
+          更新
+        </th>
+        <th class="subject style-scope gr-change-list">
+          大小
+        </th>
         <template is="dom-repeat" items="[[labelNames]]" as="labelName">
           <th class="label" title$="[[labelName]]">
             [[_computeLabelShortcut(labelName)]]
