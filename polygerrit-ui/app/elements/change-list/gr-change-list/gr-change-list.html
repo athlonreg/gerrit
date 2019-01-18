@@ -44,7 +44,17 @@ limitations under the License.
         <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
           <th class$="[[_lowerCase(item)]]"
               hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]">
-            [[item]]
+            <!-- [[item]] -->
+          <script language="javascript"type="text/javascript">
+            switch (item) {
+            case "Subject":
+                 document.write('<th class$="[[_lowerCase(item)]]" hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]">'+主题+"</th>");
+            break;
+            case "Status":
+                 document.write('<th class$="[[_lowerCase(item)]]" hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]">'+状态+"</th>");
+            break;
+            }
+          </script>
           </th>
         </template>
         <template is="dom-repeat" items="[[labelNames]]" as="labelName">
