@@ -96,7 +96,7 @@ public class PostPrivate
   public Description getDescription(ChangeResource rsrc) {
     Change change = rsrc.getChange();
     return new UiAction.Description()
-        .setLabel("Mark private")
+        .setLabel("标记为私有")
         .setTitle("Mark change as private")
         .setVisible(and(!disablePrivateChanges && !change.isPrivate(), canSetPrivate(rsrc)));
   }
