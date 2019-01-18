@@ -174,7 +174,7 @@ limitations under the License.
               commit-info="[[commitInfo]]"></gr-commit-info>
           <span class="container latestPatchContainer">
             <span class="separator"></span>
-            <a href$="[[changeUrl]]">Go to latest patch set</a>
+            <a href$="[[changeUrl]]">去查看最新的更新补丁集</a>
           </span>
           <span class="container descriptionContainer hideOnEdit">
             <span class="separator"></span>
@@ -194,7 +194,7 @@ limitations under the License.
                   id="descriptionLabel"
                   uppercase
                   class="descriptionLabel"
-                  label-text="Add patchset description"
+                  label-text="添加修改补丁集介绍"
                   value="[[_patchsetDescription]]"
                   placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
                   read-only="[[_descriptionReadOnly]]"
@@ -224,23 +224,23 @@ limitations under the License.
         <span class$="includedInContainer [[_hideIncludedIn(change)]] desktop">
           <gr-button link
               class="includedIn"
-              on-tap="_handleIncludedInTap">Included In</gr-button>
+              on-tap="_handleIncludedInTap">全部收起</gr-button>
         </span>
         <template is="dom-if"
             if="[[_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">
           <gr-button
               id="expandBtn"
               link
-              on-tap="_expandAllDiffs">Expand All</gr-button>
+              on-tap="_expandAllDiffs">全部展开</gr-button>
           <gr-button
               id="collapseBtn"
               link
-              on-tap="_collapseAllDiffs">Collapse All</gr-button>
+              on-tap="_collapseAllDiffs">全部折叠</gr-button>
         </template>
         <template is="dom-if"
             if="[[!_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">
           <div class="warning">
-            Bulk actions disabled because there are too many files.
+            由于文件数量过多，批量操作暂不可用。
           </div>
         </template>
         <div class="fileViewActions">
