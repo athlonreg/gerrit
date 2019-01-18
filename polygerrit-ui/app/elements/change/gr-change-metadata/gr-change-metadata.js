@@ -28,14 +28,14 @@
    */
   Defs.PushCertificateValidation;
 
-  const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
+  const HASHTAG_ADD_MESSAGE = '添加 Hashtag';
 
   const SubmitTypeLabel = {
     FAST_FORWARD_ONLY: 'Fast Forward Only',
-    MERGE_IF_NECESSARY: 'Merge if Necessary',
-    REBASE_IF_NECESSARY: 'Rebase if Necessary',
-    MERGE_ALWAYS: 'Always Merge',
-    REBASE_ALWAYS: 'Rebase Always',
+    MERGE_IF_NECESSARY: '如果需要就合并',
+    REBASE_IF_NECESSARY: '如果需要就合并(变基)',
+    MERGE_ALWAYS: '总是合并',
+    REBASE_ALWAYS: '总是合并(变基)',
     CHERRY_PICK: 'Cherry Pick',
   };
 
@@ -272,7 +272,7 @@
     _computeTopicPlaceholder(_topicReadOnly) {
       // Action items in Material Design are uppercase -- placeholder label text
       // is sentence case.
-      return _topicReadOnly ? 'No topic' : 'ADD TOPIC';
+      return _topicReadOnly ? '没有话题' : '添加话题';
     },
 
     _computeHashtagPlaceholder(_hashtagReadOnly) {
@@ -310,7 +310,7 @@
         return {
           class: 'help',
           icon: 'gr-icons:help',
-          message: 'This patch set was created without a push certificate',
+          message: '这个补丁集是在没有Push证书的情况下创建的',
         };
       }
 
@@ -320,24 +320,24 @@
           return {
             class: 'invalid',
             icon: 'gr-icons:close',
-            message: this._problems('Push certificate is invalid', key),
+            message: this._problems('Push证书不合法', key),
           };
         case CertificateStatus.OK:
           return {
             class: 'notTrusted',
             icon: 'gr-icons:info',
             message: this._problems(
-                'Push certificate is valid, but key is not trusted', key),
+                'Push证书有效，但密钥不可信', key),
           };
         case CertificateStatus.TRUSTED:
           return {
             class: 'trusted',
             icon: 'gr-icons:check',
             message: this._problems(
-                'Push certificate is valid and key is trusted', key),
+                'Push证书有效，密钥可信', key),
           };
         default:
-          throw new Error(`unknown certificate status: ${key.status}`);
+          throw new Error(`证书状态未知: ${key.status}`);
       }
     },
 
