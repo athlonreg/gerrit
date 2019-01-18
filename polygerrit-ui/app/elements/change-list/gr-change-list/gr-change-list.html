@@ -41,34 +41,34 @@ limitations under the License.
         <th class="leftPadding"></th>
         <th class="star" hidden$="[[!showStar]]" hidden></th>
         <th class="number" hidden$="[[!showNumber]]" hidden>#</th>
-        <!-- <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
-          <th class$="[[_lowerCase(item)]]"
+        <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
+          <!-- <th class$="[[_lowerCase(item)]]"
               hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]">
             [[item]]
-          </th>
-        </template> -->
+          </th> -->
+        </template>
         <th class="subject style-scope gr-change-list">
           主题
         </th>
-        <th class="subject style-scope gr-change-list">
+        <th class="status style-scope gr-change-list">
           状态
         </th>
-        <th class="subject style-scope gr-change-list">
+        <th class="owner style-scope gr-change-list">
           所有者
         </th>
-        <th class="subject style-scope gr-change-list">
+        <th class="assignee style-scope gr-change-list">
           委托者
         </th>
-        <th class="subject style-scope gr-change-list">
+        <th class="repo style-scope gr-change-list">
           仓库
         </th>
-        <th class="subject style-scope gr-change-list">
+        <th class="branch style-scope gr-change-list">
           分支
         </th>
-        <th class="subject style-scope gr-change-list">
+        <th class="updated style-scope gr-change-list">
           更新
         </th>
-        <th class="subject style-scope gr-change-list">
+        <th class="size style-scope gr-change-list">
           大小
         </th>
         <template is="dom-repeat" items="[[labelNames]]" as="labelName">
