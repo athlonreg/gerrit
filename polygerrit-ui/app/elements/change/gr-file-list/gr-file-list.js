@@ -1108,7 +1108,7 @@
     },
 
     _computeReviewedText(isReviewed) {
-      return isReviewed ? 'MARK UNREVIEWED' : 'MARK REVIEWED';
+      return isReviewed ? '标记为未审查' : '标记为已审查';
     },
 
     /**
