@@ -155,7 +155,7 @@ public class PostReview
   public static final String ERROR_WIP_READY_MUTUALLY_EXCLUSIVE =
       "work_in_progress and ready are mutually exclusive";
 
-  public static final String START_REVIEW_MESSAGE = "This change is ready for review.";
+  public static final String START_REVIEW_MESSAGE = "此提交可以被审查。";
 
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
   private static final int DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES = 1024 * 1024;
