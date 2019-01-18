@@ -34,11 +34,11 @@ public class Util {
   public static final LabelType codeReview() {
     return category(
         "Code-Review",
-        value(2, "Looks good to me, approved"),
-        value(1, "Looks good to me, but someone else must approve"),
-        value(0, "No score"),
-        value(-1, "I would prefer this is not merged as is"),
-        value(-2, "This shall not be merged"));
+        value(2, "我觉得没问题，已验证"),
+        value(1, "我觉得没问题，但仍需验证"),
+        value(0, "不评分"),
+        value(-1, "我认为这次提交不可被合并"),
+        value(-2, "不得合并"));
   }
 
   public static final LabelType verified() {
