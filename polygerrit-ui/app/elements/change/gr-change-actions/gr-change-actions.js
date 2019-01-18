@@ -790,9 +790,9 @@
       if (action.label === 'Delete') {
         // This label is common within change and revision actions. Make it more
         // explicit to the user.
-        return 'Delete change';
+        return '删除更改';
       } else if (action.label === 'WIP') {
-        return 'Mark as work in progress';
+        return '标记为 work in progress';
       }
       // Otherwise, just map the name to sentence case.
       return this._toSentenceCase(action.label);
