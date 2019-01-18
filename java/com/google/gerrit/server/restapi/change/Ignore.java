@@ -44,8 +44,8 @@ public class Ignore implements RestModifyView<ChangeResource, Input>, UiAction<C
   @Override
   public Description getDescription(ChangeResource rsrc) {
     return new UiAction.Description()
-        .setLabel("Ignore")
-        .setTitle("Ignore the change")
+        .setLabel("忽略")
+        .setTitle("忽略这次更改")
         .setVisible(canIgnore(rsrc));
   }
 

@@ -89,7 +89,7 @@ public class SetPrivateOp implements BatchUpdateOp {
 
   private void addMessage(ChangeContext ctx, ChangeUpdate update) throws OrmException {
     Change c = ctx.getChange();
-    StringBuilder buf = new StringBuilder(c.isPrivate() ? "Set private" : "Unset private");
+    StringBuilder buf = new StringBuilder(c.isPrivate() ? "设为私有" : "取消设置私有");
 
     String m = Strings.nullToEmpty(input == null ? null : input.message).trim();
     if (!m.isEmpty()) {

@@ -284,8 +284,8 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   public UiAction.Description getDescription(ChangeResource rsrc) {
     UiAction.Description description =
         new UiAction.Description()
-            .setLabel("Move Change")
-            .setTitle("Move change to a different branch")
+            .setLabel("移动更改")
+            .setTitle("将更改移动至不同的分支")
             .setVisible(false);
 
     Change change = rsrc.getChange();

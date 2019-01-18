@@ -138,7 +138,7 @@ public class PutTopic extends RetryingRestModifyView<ChangeResource, TopicInput,
   @Override
   public UiAction.Description getDescription(ChangeResource rsrc) {
     return new UiAction.Description()
-        .setLabel("Edit Topic")
+        .setLabel("编辑话题")
         .setVisible(rsrc.permissions().testCond(ChangePermission.EDIT_TOPIC_NAME));
   }
 }

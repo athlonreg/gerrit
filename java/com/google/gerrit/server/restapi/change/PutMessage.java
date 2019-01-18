@@ -148,8 +148,8 @@ public class PutMessage
             createCommit(objectInserter, patchSetCommit, sanitizedCommitMessage, ts);
         PatchSetInserter inserter = psInserterFactory.create(resource.getNotes(), psId, newCommit);
         inserter.setMessage(
-            String.format("Patch Set %s: Commit message was updated.", psId.getId()));
-        inserter.setDescription("Edit commit message");
+            String.format("补丁集 %s: 提交信息已更新", psId.getId()));
+        inserter.setDescription("编辑提交信息");
         inserter.setNotify(notify);
         inserter.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
         bu.addOp(resource.getChange().getId(), inserter);

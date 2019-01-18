@@ -86,7 +86,7 @@ public class Submit
     implements RestModifyView<RevisionResource, SubmitInput>, UiAction<RevisionResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final String DEFAULT_TOOLTIP = "Submit patch set ${patchSet} into ${branch}";
+  private static final String DEFAULT_TOOLTIP = "提交补丁集 ${patchSet} 到 ${branch} 分支";
   private static final String DEFAULT_TOOLTIP_ANCESTORS =
       "Submit patch set ${patchSet} and ancestors (${submitSize} changes "
           + "altogether) into ${branch}";
@@ -95,9 +95,9 @@ public class Submit
           + "(${submitSize} changes including ancestors and other "
           + "changes related by topic)";
   private static final String BLOCKED_HIDDEN_SUBMIT_TOOLTIP =
-      "This change depends on other hidden changes which are not ready";
-  private static final String CLICK_FAILURE_TOOLTIP = "Clicking the button would fail";
-  private static final String CHANGE_UNMERGEABLE = "Problems with integrating this change";
+      "此更改依赖于其他尚未准备好的隐藏更改";
+  private static final String CLICK_FAILURE_TOOLTIP = "点击按钮会失败";
+  private static final String CHANGE_UNMERGEABLE = "集成这次更改的问题";
 
   public static class Output {
     transient Change change;
@@ -150,7 +150,7 @@ public class Submit
     this.accountResolver = accountResolver;
     this.label =
         MoreObjects.firstNonNull(
-            Strings.emptyToNull(cfg.getString("change", null, "submitLabel")), "Submit");
+            Strings.emptyToNull(cfg.getString("change", null, "submitLabel")), "提交");
     this.labelWithParents =
         MoreObjects.firstNonNull(
             Strings.emptyToNull(cfg.getString("change", null, "submitLabelWithParents")),

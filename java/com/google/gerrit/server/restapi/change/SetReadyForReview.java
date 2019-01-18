@@ -90,8 +90,8 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
   @Override
   public Description getDescription(ChangeResource rsrc) {
     return new Description()
-        .setLabel("Start Review")
-        .setTitle("Set Ready For Review")
+        .setLabel("开始审查")
+        .setTitle("设为准备好审查")
         .setVisible(
             and(
                 rsrc.getChange().getStatus() == Status.NEW && rsrc.getChange().isWorkInProgress(),

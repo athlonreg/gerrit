@@ -102,11 +102,11 @@ public class PutDescription
       }
       String summary;
       if (oldDescription.isEmpty()) {
-        summary = "Description set to \"" + newDescription + "\"";
+        summary = "简介设置为 \"" + newDescription + "\"";
       } else if (newDescription.isEmpty()) {
-        summary = "Description \"" + oldDescription + "\" removed";
+        summary = "简介 \"" + oldDescription + "\" 已移除";
       } else {
-        summary = "Description changed to \"" + newDescription + "\"";
+        summary = "简介一更改为 \"" + newDescription + "\"";
       }
 
       ps.setDescription(newDescription);
@@ -125,7 +125,7 @@ public class PutDescription
   @Override
   public UiAction.Description getDescription(RevisionResource rsrc) {
     return new UiAction.Description()
-        .setLabel("Edit Description")
+        .setLabel("编辑简介")
         .setVisible(rsrc.permissions().testCond(ChangePermission.EDIT_DESCRIPTION));
   }
 }

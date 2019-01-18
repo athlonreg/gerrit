@@ -51,8 +51,8 @@ public class MarkAsUnreviewed
   @Override
   public Description getDescription(ChangeResource rsrc) {
     return new UiAction.Description()
-        .setLabel("Mark Unreviewed")
-        .setTitle("Mark the change as unreviewed to highlight it in the dashboard")
+        .setLabel("标记为未审查")
+        .setTitle("将更改标记为未审阅，在仪表板中高亮显示")
         .setVisible(isReviewed(rsrc));
   }
 

@@ -145,8 +145,8 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
   public UiAction.Description getDescription(ChangeResource rsrc) {
     UiAction.Description description =
         new UiAction.Description()
-            .setLabel("Abandon")
-            .setTitle("Abandon the change")
+            .setLabel("丢弃")
+            .setTitle("丢弃本次修改")
             .setVisible(false);
 
     Change change = rsrc.getChange();

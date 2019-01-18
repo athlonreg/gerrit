@@ -208,8 +208,8 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
   public UiAction.Description getDescription(RevisionResource rsrc) {
     UiAction.Description description =
         new UiAction.Description()
-            .setLabel("Rebase")
-            .setTitle("Rebase onto tip of branch or parent change")
+            .setLabel("变基")
+            .setTitle("变基至分支或父级更改的顶端")
             .setVisible(false);
 
     Change change = rsrc.getChange();

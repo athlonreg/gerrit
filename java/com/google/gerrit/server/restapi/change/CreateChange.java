@@ -233,27 +233,27 @@ public class CreateChange
           parentCommit = ObjectId.fromString(input.baseCommit);
         } catch (InvalidObjectIdException e) {
           throw new UnprocessableEntityException(
-              String.format("Base %s doesn't represent a valid SHA-1", input.baseCommit));
+              String.format("%s 不是一个正确的 SHA-1", input.baseCommit));
         }
         RevCommit parentRevCommit = rw.parseCommit(parentCommit);
         RevCommit destRefRevCommit = rw.parseCommit(destRef.getObjectId());
         if (!rw.isMergedInto(parentRevCommit, destRefRevCommit)) {
           throw new BadRequestException(
-              String.format("Commit %s doesn't exist on ref %s", input.baseCommit, refName));
+              String.format("提交 %s 在引用 %s 中不存在", input.baseCommit, refName));
         }
         groups = Collections.emptyList();
       } else {
         if (destRef != null) {
           if (Boolean.TRUE.equals(input.newBranch)) {
             throw new ResourceConflictException(
-                String.format("Branch %s already exists.", refName));
+                String.format("分支 %s 已经存在.", refName));
           }
           parentCommit = destRef.getObjectId();
         } else {
           if (Boolean.TRUE.equals(input.newBranch)) {
             parentCommit = null;
           } else {
-            throw new BadRequestException("Must provide a destination branch");
+            throw new BadRequestException("必须提供目标分支");
           }
         }
         groups = Collections.emptyList();
@@ -308,7 +308,7 @@ public class CreateChange
 
       Change.Id changeId = new Change.Id(seq.nextChangeId());
       ChangeInserter ins = changeInserterFactory.create(changeId, c, refName);
-      ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
+      ins.setMessage(String.format("已上传补丁集 %s.", ins.getPatchSetId().get()));
       String topic = input.topic;
       if (topic != null) {
         topic = Strings.emptyToNull(topic.trim());

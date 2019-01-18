@@ -91,7 +91,7 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
   public Description getDescription(ChangeResource rsrc) {
     return new Description()
         .setLabel("WIP")
-        .setTitle("Set Work In Progress")
+        .setTitle("设为 Work In Progress")
         .setVisible(
             and(
                 rsrc.getChange().getStatus() == Status.NEW && !rsrc.getChange().isWorkInProgress(),

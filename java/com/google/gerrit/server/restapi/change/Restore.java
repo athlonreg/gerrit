@@ -136,7 +136,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
 
     private ChangeMessage newMessage(ChangeContext ctx) {
       StringBuilder msg = new StringBuilder();
-      msg.append("Restored");
+      msg.append("已还原");
       if (!Strings.nullToEmpty(input.message).trim().isEmpty()) {
         msg.append("\n\n");
         msg.append(input.message.trim());
@@ -163,8 +163,8 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
   public UiAction.Description getDescription(ChangeResource rsrc) {
     UiAction.Description description =
         new UiAction.Description()
-            .setLabel("Restore")
-            .setTitle("Restore the change")
+            .setLabel("还原")
+            .setTitle("还原这次更改")
             .setVisible(false);
 
     Change change = rsrc.getChange();

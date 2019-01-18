@@ -175,7 +175,7 @@ public class CherryPickChange {
       Ref destRef = git.getRefDatabase().exactRef(dest.get());
       if (destRef == null) {
         throw new InvalidChangeOperationException(
-            String.format("Branch %s does not exist.", dest.get()));
+            String.format("分支 %s 不存在.", dest.get()));
       }
 
       RevCommit baseCommit = getBaseCommit(destRef, project.get(), revWalk, input.base);
@@ -288,7 +288,7 @@ public class CherryPickChange {
     try {
       baseObjectId = ObjectId.fromString(base);
     } catch (InvalidObjectIdException e) {
-      throw new BadRequestException(String.format("Base %s doesn't represent a valid SHA-1", base));
+      throw new BadRequestException(String.format("%s 不是一个正确的 SHA-1", base));
     }
 
     RevCommit baseCommit = revWalk.parseCommit(baseObjectId);
@@ -302,7 +302,7 @@ public class CherryPickChange {
         return baseCommit;
       }
       throw new UnprocessableEntityException(
-          String.format("Commit %s does not exist on branch %s", base, destRef.getName()));
+          String.format("提交 %s 在分支 %s 不存在", base, destRef.getName()));
     } else if (changeDatas.size() != 1) {
       throw new ResourceConflictException("Multiple changes found for commit " + base);
     }
@@ -330,7 +330,7 @@ public class CherryPickChange {
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
     PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, cherryPickCommit);
     inserter
-        .setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".")
+        .setMessage("已上传补丁集 " + inserter.getPatchSetId().get() + ".")
         .setNotify(input.notify)
         .setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
     bu.addOp(destChange.getId(), inserter);
@@ -379,7 +379,7 @@ public class CherryPickChange {
       Branch.NameKey sourceBranch,
       ObjectId sourceCommit,
       CodeReviewCommit cherryPickCommit) {
-    StringBuilder stringBuilder = new StringBuilder("Patch Set ").append(patchSetId.get());
+    StringBuilder stringBuilder = new StringBuilder("补丁集 ").append(patchSetId.get());
     if (sourceBranch != null) {
       stringBuilder.append(": Cherry Picked from branch ").append(sourceBranch.getShortName());
     } else {
@@ -388,7 +388,7 @@ public class CherryPickChange {
     stringBuilder.append(".");
 
     if (!cherryPickCommit.getFilesWithGitConflicts().isEmpty()) {
-      stringBuilder.append("\n\nThe following files contain Git conflicts:\n");
+      stringBuilder.append("\n\n下面的文件包含 Git 冲突:\n");
       cherryPickCommit
           .getFilesWithGitConflicts()
           .stream()

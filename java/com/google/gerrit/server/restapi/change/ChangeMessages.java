@@ -66,7 +66,7 @@ public class ChangeMessages implements ChildCollection<ChangeResource, ChangeMes
     }
 
     if (index < 0) {
-      throw new ResourceNotFoundException(String.format("change message %s not found", uuid));
+      throw new ResourceNotFoundException(String.format("更改信息 %s 不存在", uuid));
     }
 
     return new ChangeMessageResource(parent, changeMessages.get(index), index);

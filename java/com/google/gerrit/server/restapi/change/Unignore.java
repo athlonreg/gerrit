@@ -40,8 +40,8 @@ public class Unignore implements RestModifyView<ChangeResource, Input>, UiAction
   @Override
   public Description getDescription(ChangeResource rsrc) {
     return new UiAction.Description()
-        .setLabel("Unignore")
-        .setTitle("Unignore the change")
+        .setLabel("取消忽略")
+        .setTitle("取消忽略这次更改")
         .setVisible(isIgnored(rsrc));
   }
 

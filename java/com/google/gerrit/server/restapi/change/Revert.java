@@ -227,7 +227,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
           changeInserterFactory
               .create(changeId, revertCommit, notes.getChange().getDest().get())
               .setTopic(changeToRevert.getTopic());
-      ins.setMessage("Uploaded patch set 1.");
+      ins.setMessage("已上传补丁集 1.");
       ins.setNotify(input.notify);
       ins.setAccountsToNotify(accountsToNotify);
 
@@ -266,8 +266,8 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
           "Failed to check if project state permits write: %s", rsrc.getProject());
     }
     return new UiAction.Description()
-        .setLabel("Revert")
-        .setTitle("Revert the change")
+        .setLabel("回退")
+        .setTitle("回退这次更改")
         .setVisible(
             and(
                 change.getStatus() == Change.Status.MERGED && projectStatePermitsWrite,
