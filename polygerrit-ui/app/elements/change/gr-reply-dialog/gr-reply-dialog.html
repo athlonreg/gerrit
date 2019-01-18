@@ -167,7 +167,7 @@ limitations under the License.
               change="[[change]]"
               filter="[[filterReviewerSuggestion]]"
               pending-confirmation="{{_reviewerPendingConfirmation}}"
-              placeholder="Add reviewer..."
+              placeholder="添加审查者..."
               on-account-text-changed="_handleAccountTextEntry">
           </gr-account-list>
         </div>
@@ -181,7 +181,7 @@ limitations under the License.
                 filter="[[filterCCSuggestion]]"
                 pending-confirmation="{{_ccPendingConfirmation}}"
                 allow-any-input
-                placeholder="Add CC..."
+                placeholder="添加抄送..."
                 on-account-text-changed="_handleAccountTextEntry">
             </gr-account-list>
           </div>
@@ -280,7 +280,7 @@ limitations under the License.
           <span
               id="checkingStatusLabel"
               hidden$="[[!_isState(knownLatestState, 'checking')]]">
-            Checking whether patch [[patchNum]] is latest...
+            检查补丁 [[patchNum]] 是否为最新...
           </span>
           <span
               id="notLatestLabel"
