@@ -125,7 +125,7 @@
       },
       _registerText: {
         type: String,
-        value: 'Sign up',
+        value: '注册',
       },
       _registerURL: {
         type: String,
