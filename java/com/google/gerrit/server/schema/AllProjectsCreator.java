@@ -238,11 +238,11 @@ public class AllProjectsCreator {
         new LabelType(
             "Code-Review",
             ImmutableList.of(
-                new LabelValue((short) 2, "Looks good to me, approved"),
-                new LabelValue((short) 1, "Looks good to me, but someone else must approve"),
-                new LabelValue((short) 0, "No score"),
-                new LabelValue((short) -1, "I would prefer this is not merged as is"),
-                new LabelValue((short) -2, "This shall not be merged")));
+                new LabelValue((short) 2, "我觉得没问题，已验证"),
+                new LabelValue((short) 1, "我觉得没问题，但仍需验证"),
+                new LabelValue((short) 0, "不评分"),
+                new LabelValue((short) -1, "我认为这次提交不可被合并"),
+                new LabelValue((short) -2, "不得合并")));
     type.setCopyMinScore(true);
     type.setCopyAllScoresOnTrivialRebase(true);
     return type;
