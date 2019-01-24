@@ -10,12 +10,11 @@
 
 ## Source
 
-Our canonical Git repository is located on [googlesource.com](https://gerrit.googlesource.com/gerrit).
-There is a mirror of the repository on [Github](https://github.com/GerritCodeReview/gerrit).
+官方源码托管于 [googlesource.com](https://gerrit.googlesource.com/gerrit)。
 
-## bug 提交
+## Bug 
 
-bug 请在 [issue tracker](https://bugs.chromium.org/p/gerrit/issues/list)提出。
+使用过程中发现的 Bug 请在 [issue tracker](https://bugs.chromium.org/p/gerrit/issues/list)提出。
 
 
 ## 许可
@@ -24,7 +23,7 @@ Gerrit 遵循 Apache License 2.0 许可。
 
 ## 编译
 
-安装 [Bazel](https://bazel.build/versions/master/docs/install.html) 运行下面的命令:
+安装 [Bazel](https://bazel.build/versions/master/docs/install.html) 然后运行下面的命令:
 
 ```bash
 git clone --recurse-submodules https://gerrit.googlesource.com/gerrit
