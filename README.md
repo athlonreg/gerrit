@@ -62,3 +62,6 @@ CentOS:
 ```bash
 docker run -p 8080:8080 canvas1996/gerrit-2.16.3-chinese:tagname
 ```
+
+## Credits
+- Gerrit Code Review team for their source code
